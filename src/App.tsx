@@ -1,13 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from 'react'
+import { ChakraProvider } from '@chakra-ui/react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { Provider } from 'react-redux';
-import store from './Redux-toolkit/Store';
+import Register from './Components/Register/Register';
+import Login from './Components/Login/Login';
+import Dashboard from './Components/Dashboard/Dashboard';
+import { theme } from './utils/theme';
 function App() {
+ 
   return (
-    <Provider store={store}>
-      <div className="App">Boilerplate code for react,typescript and redux-toolkit</div>
-    </Provider>
+    <>
+    <ChakraProvider theme={theme}>
+      <BrowserRouter>
+      <Routes>
+        <Route path='/register' element={<Register/>}></Route>
+        <Route path='/login' element={<Login/>}></Route>
+        <Route path='/dashboard' element={<Dashboard/>}></Route>
+      </Routes>
+      </BrowserRouter>
+    </ChakraProvider>
+    </>
   );
 }
 

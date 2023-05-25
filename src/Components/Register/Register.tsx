@@ -1,12 +1,14 @@
-import { Box, Button, Input } from '@chakra-ui/react'
+import { Box, Button, Input, Text } from '@chakra-ui/react'
 import { useFormik } from "formik";
 import './register.scss'
 import React from 'react'
 import { useAppStore } from '../../zustand/store';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { register } from '../../services/auth-service';
 const Register = () => {
   const navigate = useNavigate();
   const registerUser = useAppStore((state:any) => state.registerUser)
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -14,13 +16,13 @@ const Register = () => {
       password: ''
     },
     onSubmit: (values) => {
-      registerUser({user: values})
-      .then(() => {
-        console.log("inside main then")
+        register({user:values}).then(()=> {
+            navigate('/login')
+        })
+        .catch((error)=> {
+          console.log("inside main catch:", error)
+
       })
-      .catch((error:any) => {
-        console.log("inside main catch:", error)
-      });
     },
   })
 
@@ -50,7 +52,10 @@ const Register = () => {
               type='password'
               onChange={formik.handleChange}
               value={formik.values.password} />
-            <Button type='submit'>Submit</Button>
+            <Button type='submit' marginTop="20px">Submit</Button>
+            <Text >
+              Already have any account? <Link to="/login">Log in</Link>
+            </Text>
           </form>
         </Box>
       </Box>

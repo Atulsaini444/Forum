@@ -25,9 +25,9 @@ const Header = () => {
       </div>
       <div className='headerButtonsWrapper'>
         {token ? (
-          <Button background="orange" color="white" onClick={()=>handleLogOut()}>Log out</Button>
+          <Button colorScheme="messenger" onClick={()=>handleLogOut()}>Log out</Button>
         ) : (
-          <Button variant="outline" background="orange" color="white" onClick={handleSignInClick}>Log in</Button>
+          <Button variant="solid" colorScheme="messenger" onClick={handleSignInClick}>Log in</Button>
         )}
 
       </div>

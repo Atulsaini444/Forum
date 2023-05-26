@@ -1,13 +1,14 @@
-import { Box, Button, Input, Text } from '@chakra-ui/react'
+import { Box, Button, FormErrorMessage, Input, Text, useToast } from '@chakra-ui/react'
 import { useFormik } from "formik";
 import './register.scss'
-import React from 'react'
-import { useAppStore } from '../../zustand/store';
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../../services/auth-service';
+import { SignupSchema } from '../../utils/SignUpSchema';
 const Register = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const toast = useToast()
   const navigate = useNavigate();
-  const registerUser = useAppStore((state:any) => state.registerUser)
 
   const formik = useFormik({
     initialValues: {
@@ -15,45 +16,68 @@ const Register = () => {
       email: '',
       password: ''
     },
+    validationSchema: SignupSchema,
     onSubmit: (values) => {
-        register({user:values}).then(()=> {
-            navigate('/login')
+      setIsLoading(true)
+      register({ user: values }).then(() => {
+        setIsLoading(false)
+        toast({
+          title: 'Account created successfully',
+          status: 'success',
+          position: 'top-right',
+          duration: 6000,
+          isClosable: true,
         })
-        .catch((error)=> {
+        navigate('/login')
+      })
+        .catch((error) => {
+          setIsLoading(false)
+          toast({
+            title: `${error}`,
+            position: 'top-right',
+            status: 'error',
+            duration: 6000,
+            isClosable: true,
+          })
           console.log("inside main catch:", error)
 
-      })
+        })
     },
   })
+
+  console.log(formik)
 
   return (
     <div>
       <Box>
         <Box className='registerFormWrapper'>
           <form onSubmit={formik.handleSubmit}>
-            <div>Username</div>
+            <Text marginTop="2">Username</Text>
             <Input
               id='username'
               name='username'
               type='text'
               onChange={formik.handleChange}
               value={formik.values.username} />
-            <div>Email</div>
+            {formik?.errors?.username && <Text color="red">{formik.errors.username}</Text>}
+            <Text marginTop="2">Email</Text>
             <Input
               id='email'
               name='email'
               type='email'
               onChange={formik.handleChange}
               value={formik.values.email} />
-            <div>Password</div>
+            {formik?.errors?.email && <Text color="red">{formik.errors.email}</Text>}
+            <Text marginTop="2">Password</Text>
             <Input
               id='password'
               name='password'
               type='password'
               onChange={formik.handleChange}
               value={formik.values.password} />
-            <Button type='submit' marginTop="20px">Submit</Button>
-            <Text >
+            {formik?.errors?.password && <Text color="red">{formik.errors.password}</Text>}
+            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' colorScheme="messenger" type='submit' margin="20px 0">Submit</Button>
+            <Text>
               Already have any account? <Link to="/login">Log in</Link>
             </Text>
           </form>

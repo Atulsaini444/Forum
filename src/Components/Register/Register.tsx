@@ -39,13 +39,11 @@ const Register = () => {
             duration: 6000,
             isClosable: true,
           })
-          console.log("inside main catch:", error)
 
         })
     },
   })
 
-  console.log(formik)
 
   return (
     <div>

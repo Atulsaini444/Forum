@@ -8,6 +8,8 @@ import { theme } from './utils/theme';
 import Header from './Components/Header/Header';
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import { useAppStore } from './zustand/store';
+import SingleArticle from './Components/SingleArticle/SingleArticle';
+import UserProfile from './Components/UserProfile/UserProfile';
 function App() {
   const setToken = useAppStore((state:any) => state.setToken)
   useEffect(() => {
@@ -28,7 +30,9 @@ function App() {
             <Route path='/signup' element={<Register />}></Route>
             <Route path='/login' element={<Login />}></Route>
             <Route element={<ProtectedRoutes />}>
-              <Route path='/dashboard' element={<Dashboard />}></Route>
+              <Route path='/' element={<Dashboard />}></Route>
+              <Route path='/singlearticle/:slug' element={<SingleArticle />}></Route>
+              <Route path='/:username' element={<UserProfile />}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

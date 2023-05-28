@@ -1,0 +1,14 @@
+.profileWrapper {
+  height: 200px;
+  background: rgb(178, 205, 255)  ;
+  display: flex;
+  flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+.profileAvatarInformation{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

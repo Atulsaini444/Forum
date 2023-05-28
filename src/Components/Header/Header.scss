@@ -1,15 +1,25 @@
 .headerWrapper {
   position:sticky;
   height: 60px;
-  background: rgb(244, 244, 244);
+  background: rgb(248, 248, 248);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 50px;
 }
 
+.logoWrapper {
+  cursor: pointer;
+}
+
 .headerButtonsWrapper {
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 }
 
+@media (max-width: 600px) {
+  .headerWrapper {
+    padding: 0 20px;
+  }
+}

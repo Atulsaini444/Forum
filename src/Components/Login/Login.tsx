@@ -33,7 +33,7 @@ const Login = () => {
           duration: 6000,
           isClosable: true,
         })
-        navigate('/dashboard')
+        navigate('/')
       })
         .catch((error) => {
           setIsLoading(false)

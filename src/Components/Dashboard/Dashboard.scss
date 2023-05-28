@@ -1,12 +1,27 @@
 .mainContainer {
-  margin: 25px 50px;
-  border-bottom: 1px solid #718096;
-  padding-bottom: 10px;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container {
+  background-color: rgb(232 240 255);
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  width: 46%;
+  padding: 10px;
+  margin: 10px 20px;
+}
+
+.container:hover {
+  box-shadow: 8px 28px 50px rgba(39, 44, 49, .07), 1px 6px 12px rgba(39, 44, 49, .04);
+  transition: all .1 s ease;
+  transform: translate3D(0, -1px, 0) scale(1.01);
 }
 
 .usernameAvatarConatainer {
   display: flex;
-  color: #718096;
+  color: rgb(148, 148, 148);
 }
 
 .usrnameFavouriteCountConatainer {
@@ -14,10 +29,33 @@
   justify-content: space-between;
 }
 
-.favouritesCount{
-  border: 1px solid #718096;
+.userName {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.userName:hover {
+  color: rgb(103, 93, 254);
+}
+
+
+.favouritesCount {
+  border: 1px solid;
   border-radius: 5px;
   padding: 5px 5px;
+}
+
+.titleConatiner {
+  cursor: pointer;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+.titleConatiner:hover {
+  color: rgb(65, 72, 150);
 }
 
 .articleFooter {
@@ -25,18 +63,32 @@
   justify-content: space-between;
 }
 
-.tagsContainer{
+.tagsContainer {
   display: flex;
+  flex-wrap: wrap;
 }
 
-.singleTag{
+.singleTag {
   padding: 5px;
-  border: 1px solid #718096;
-  margin-left: 8px;
+  border: 1px solid;
+  margin-right: 8px;
+  margin-top: 5px;
   border-radius: 5px;
 }
 
 .loaderWrapper {
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 1040px) {
+  .container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 450px) {
+  .container {
+    margin: 10px 0
+  }
 }

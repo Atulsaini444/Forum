@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { register } from '../services/auth-service';
 
-interface userData {
+export interface userData {
   bio?: string,
   email: string,
   image: string,
@@ -11,20 +11,11 @@ interface userData {
 
 export const useAppStore = create((set) => ({
   articlesData: [],
+  singleArticle:[],
   userData: {},
   token: "",
-  // registerUser: (data: any) => set(async() => {
-  //   try {
-  //     const response = await register(data);
-  //     console.log("store ka response", response);
-  //     return true;
-  //   } catch (error) {
-  //     console.log("store ka error", error);
-  //     return false;
-  //   }
-  // }    
-  // ),
   setArticles: (data: any) => set((state:any) => ({articlesData: [...state.articlesData, ...data]}) ),
   setUser: (data:userData) => set((state:any)=> ({userData: data})),
-  setToken: (data:string) => set((state:any)=> ({token: data}))
+  setToken: (data:string) => set((state:any)=> ({token: data})),
+  setSingleArticle: (data:any) => set((state:any)=> ({singleArticle: data}))
 }))

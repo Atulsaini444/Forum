@@ -4,6 +4,7 @@ import { Avatar, Text } from '@chakra-ui/react';
 import './Dashboard.scss'
 import useFetch from '../../Hooks/useFetch';
 import { useNavigate } from 'react-router-dom';
+import ScrollToTopButton from '../ScrollToTop/ScrollToTopButton';
 const Dashboard = () => {
   const [offset, setOffset] = useState(0)
   const loader = useRef(null);
@@ -16,7 +17,7 @@ const Dashboard = () => {
     }
   }, []);
   const handleTitleClick = (slug:string) =>{
-    navigate(`/singlearticle/${slug}`)
+    navigate(`/single-article/${slug}`)
   }
 
   const handleUserName = (username:string) => {
@@ -71,6 +72,7 @@ const Dashboard = () => {
           </div>
         )
       })}
+      <ScrollToTopButton />
         </div>
       {loading && <div className='loaderWrapper'><ColorRing
         visible={true}

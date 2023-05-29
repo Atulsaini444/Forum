@@ -10,6 +10,8 @@ import ProtectedRoutes from './utils/ProtectedRoutes';
 import { useAppStore } from './zustand/store';
 import SingleArticle from './Components/SingleArticle/SingleArticle';
 import UserProfile from './Components/UserProfile/UserProfile';
+import EditProfile from './Components/EdiProfile/EditProfile';
+import CreateArticle from './Components/CreateArticle/CreateArticle';
 function App() {
   const setToken = useAppStore((state:any) => state.setToken)
   useEffect(() => {
@@ -31,8 +33,10 @@ function App() {
             <Route path='/login' element={<Login />}></Route>
             <Route element={<ProtectedRoutes />}>
               <Route path='/' element={<Dashboard />}></Route>
-              <Route path='/singlearticle/:slug' element={<SingleArticle />}></Route>
+              <Route path='/single-article/:slug' element={<SingleArticle />}></Route>
               <Route path='/:username' element={<UserProfile />}></Route>
+              <Route path='/edit-profile' element={<EditProfile />}></Route>
+              <Route path='/create-article' element={<CreateArticle />}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

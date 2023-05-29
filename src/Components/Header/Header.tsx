@@ -13,6 +13,7 @@ const Header = () => {
   const setUser = useAppStore((state: any) => state.setUser)
   const navigate = useNavigate();
 
+
   useEffect(() => {
     if (token) {
       const decoded = jwt_decode(token);
@@ -35,6 +36,13 @@ const Header = () => {
     navigate(`/${decoded.username}`)
   }
 
+  const handleEditProfile = () => {
+    navigate('/edit-profile')
+  }
+  const handleCreateArticle = () => {
+    navigate('/create-article')
+  }
+
   const handleLogo = () => {
     navigate('/')
   }
@@ -46,17 +54,19 @@ const Header = () => {
       </div>
       <div className='headerButtonsWrapper'>
         {token ? (
-          // <Button colorScheme="messenger" onClick={()=>handleLogOut()}>Log out</Button>
+        <>
+          <Button color="GrayText" variant="unstyled" onClick={handleCreateArticle} marginRight="5">Create Article</Button>
+          <Button color="GrayText" variant="unstyled" onClick={handleEditProfile} marginRight="5">Edit Profile</Button>
           <Popover direction='ltr'>
             <PopoverTrigger>
-              <Avatar size='sm' src={userData.image} />
+              <Avatar className="avatarClass" size='sm' src={userData.image} />
             </PopoverTrigger>
             <PopoverContent maxWidth="100px">
-              <PopoverBody onClick={() => handleProfileButton()}>Profile</PopoverBody>
-              <PopoverBody onClick={() => handleLogOut()}>Logout</PopoverBody>
+              <PopoverBody onClick={handleProfileButton}>Profile</PopoverBody>
+              <PopoverBody onClick={handleLogOut}>Logout</PopoverBody>
             </PopoverContent>
           </Popover>
-
+        </>
         ) : (
           <Button variant="solid" colorScheme="messenger" onClick={handleSignInClick}>Log in</Button>
         )}

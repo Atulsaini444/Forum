@@ -1,25 +1,32 @@
-import { Box, Button, FormErrorMessage, Input, Text, useToast } from '@chakra-ui/react'
+import { Box, Button, Input, Text, Textarea, useToast } from '@chakra-ui/react'
+import axios from 'axios';
 import { useFormik } from "formik";
-import './register.scss'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { register } from '../../services/auth-service';
+import { editProfile } from '../../services/auth-service';
 import { SignupSchema } from '../../utils/SignUpSchema';
-const Register = () => {
+import { useAppStore, userData } from '../../zustand/store';
+
+const EditProfile = () => {
   const [isLoading, setIsLoading] = useState(false)
+  const token = useAppStore((state: any) => state.token)
+  const [user, setUser] = useState<userData>();
   const toast = useToast()
   const navigate = useNavigate();
 
+
   const formik = useFormik({
     initialValues: {
-      username: '',
-      email: '',
-      password: ''
+      username: user? user?.username : '',
+      email: user? user?.email : '',
+      bio:user? user?.bio : '',
+      password: '',
+      image:user? user?.image : ''
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
       setIsLoading(true)
-      register({ user: values }).then(() => {
+      editProfile({ user: values }).then(() => {
         setIsLoading(false)
         toast({
           title: 'Account created successfully',
@@ -44,12 +51,25 @@ const Register = () => {
     },
   })
 
+  const getCurrentUser = async () => {
+    console.log(token)
+
+      const res = await axios.get(`https://api.realworld.io/api/user`)
+      console.log(res)
+
+  }
+
+  useEffect(()=>{
+    getCurrentUser()
+  },[])
+
+
 
   return (
     <div>
       <Box>
         <Box className='registerFormWrapper'>
-        <Text fontSize="2xl" fontWeight="700" color='blue.600' textAlign="center">Register</Text>
+        <Text fontSize="2xl" fontWeight="700" color='blue.600' textAlign="center">Edit Profile</Text>
           <form onSubmit={formik.handleSubmit}>
             <Text marginTop="2">Username</Text>
             <Input
@@ -58,7 +78,7 @@ const Register = () => {
               type='text'
               onChange={formik.handleChange}
               value={formik.values.username} />
-            {formik?.errors?.username && <Text color="red">{formik.errors.username}</Text>}
+            {/* {formik?.errors?.username && <Text color="red">{formik.errors.username}</Text>} */}
             <Text marginTop="2">Email</Text>
             <Input
               id='email'
@@ -66,7 +86,14 @@ const Register = () => {
               type='email'
               onChange={formik.handleChange}
               value={formik.values.email} />
-            {formik?.errors?.email && <Text color="red">{formik.errors.email}</Text>}
+            {/* {formik?.errors?.email && <Text color="red">{formik?.errors?.email}</Text>} */}
+            <Text marginTop="2">Bio</Text>
+            <Textarea 
+            placeholder='Here is a sample placeholder' 
+            name="bio" 
+            onChange={formik.handleChange} 
+            value={formik.values.bio}
+            />
             <Text marginTop="2">Password</Text>
             <Input
               id='password'
@@ -86,4 +113,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default EditProfile

@@ -51,6 +51,7 @@ const Login = () => {
     <div>
       <Box>
         <Box className='registerFormWrapper'>
+        <Text fontSize="2xl" fontWeight="700" color='blue.600' textAlign="center">Login</Text>
           <form onSubmit={formik.handleSubmit}>
           <Text>Email</Text>
             <Input

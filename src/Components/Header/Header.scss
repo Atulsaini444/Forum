@@ -8,14 +8,13 @@
   padding: 0 50px;
 }
 
-.logoWrapper {
+.logoWrapper, .avatarClass {
   cursor: pointer;
 }
 
 .headerButtonsWrapper {
   display: flex;
-  justify-content: space-between;
-  cursor: pointer;
+  align-items: center;
 }
 
 @media (max-width: 600px) {

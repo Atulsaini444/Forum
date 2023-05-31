@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { register } from '../services/auth-service';
 
 export interface userData {
-  bio?: string,
+  bio?: string | undefined,
   email: string,
   image: string,
   token:string,

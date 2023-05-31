@@ -12,6 +12,7 @@ import SingleArticle from './Components/SingleArticle/SingleArticle';
 import UserProfile from './Components/UserProfile/UserProfile';
 import EditProfile from './Components/EdiProfile/EditProfile';
 import CreateArticle from './Components/CreateArticle/CreateArticle';
+import authHeader from './services/auth-header';
 function App() {
   const setToken = useAppStore((state:any) => state.setToken)
   useEffect(() => {
@@ -21,6 +22,10 @@ function App() {
     }
     
   }, [])
+
+  useEffect(()=> {
+    authHeader()
+  },[])
   
 
   return (

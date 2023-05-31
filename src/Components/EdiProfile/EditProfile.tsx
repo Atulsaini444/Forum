@@ -9,27 +9,29 @@ import { useAppStore, userData } from '../../zustand/store';
 
 const EditProfile = () => {
   const [isLoading, setIsLoading] = useState(false)
+  const [currentUser, setCurrentUser] = useState<userData>()
   const token = useAppStore((state: any) => state.token)
-  const [user, setUser] = useState<userData>();
   const toast = useToast()
   const navigate = useNavigate();
 
-
+  console.log(currentUser)
   const formik = useFormik({
     initialValues: {
-      username: user? user?.username : '',
-      email: user? user?.email : '',
-      bio:user? user?.bio : '',
+      username: currentUser?.username || '',
+      email: currentUser?.email || '',
+      bio: currentUser?.bio || '',
       password: '',
-      image:user? user?.image : ''
-    },
+      image: currentUser ? currentUser?.image : ''
+    }
+    ,
+    enableReinitialize: true,
     validationSchema: SignupSchema,
     onSubmit: (values) => {
       setIsLoading(true)
       editProfile({ user: values }).then(() => {
         setIsLoading(false)
         toast({
-          title: 'Account created successfully',
+          title: 'user updated successfully',
           status: 'success',
           position: 'top-right',
           duration: 6000,
@@ -51,25 +53,32 @@ const EditProfile = () => {
     },
   })
 
+  useEffect(() => {
+    if (currentUser) {
+      formik.setValues({
+        username: currentUser?.username,
+        email: currentUser?.email,
+        bio: currentUser.bio!,
+        password: '',
+        image: currentUser?.image
+      });
+    }
+  }, [currentUser, formik.setValues]);
+
   const getCurrentUser = async () => {
-    console.log(token)
-
-      const res = await axios.get(`https://api.realworld.io/api/user`)
-      console.log(res)
-
+    const res = await axios.get(`https://api.realworld.io/api/user`)
+    setCurrentUser(res.data.user)
   }
 
-  useEffect(()=>{
-    getCurrentUser()
-  },[])
-
-
+  useEffect(() => {
+    if (token) getCurrentUser()
+  }, [token])
 
   return (
     <div>
       <Box>
         <Box className='registerFormWrapper'>
-        <Text fontSize="2xl" fontWeight="700" color='blue.600' textAlign="center">Edit Profile</Text>
+          <Text fontSize="2xl" fontWeight="700" color='blue.600' textAlign="center">Edit Profile</Text>
           <form onSubmit={formik.handleSubmit}>
             <Text marginTop="2">Username</Text>
             <Input
@@ -88,11 +97,11 @@ const EditProfile = () => {
               value={formik.values.email} />
             {/* {formik?.errors?.email && <Text color="red">{formik?.errors?.email}</Text>} */}
             <Text marginTop="2">Bio</Text>
-            <Textarea 
-            placeholder='Here is a sample placeholder' 
-            name="bio" 
-            onChange={formik.handleChange} 
-            value={formik.values.bio}
+            <Textarea
+              placeholder='Here is a sample placeholder'
+              name="bio"
+              onChange={formik.handleChange}
+              value={formik.values.bio}
             />
             <Text marginTop="2">Password</Text>
             <Input
@@ -103,9 +112,6 @@ const EditProfile = () => {
               value={formik.values.password} />
             {formik?.errors?.password && <Text color="red">{formik.errors.password}</Text>}
             <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' colorScheme="messenger" type='submit' margin="20px 0">Submit</Button>
-            <Text>
-              Already have any account? <Link to="/login">Log in</Link>
-            </Text>
           </form>
         </Box>
       </Box>

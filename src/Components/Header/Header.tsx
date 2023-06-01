@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Header.scss'
-import { Avatar, Button, Popover, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Text } from '@chakra-ui/react'
+import { Avatar, Button, Popover, PopoverBody, PopoverContent, PopoverTrigger, Text } from '@chakra-ui/react';
+import {BsFillPencilFill, BsPencilSquare} from 'react-icons/bs';
 import { useAppStore } from '../../zustand/store'
 import jwt_decode from "jwt-decode";
 
@@ -55,8 +56,8 @@ const Header = () => {
       <div className='headerButtonsWrapper'>
         {token ? (
         <>
-          <Button color="GrayText" variant="unstyled" onClick={handleCreateArticle} marginRight="5">Create Article</Button>
-          <Button color="GrayText" variant="unstyled" onClick={handleEditProfile} marginRight="5">Edit Profile</Button>
+          <Button color="GrayText" variant="unstyled" onClick={handleCreateArticle} marginRight="5" display="flex"><BsFillPencilFill/><Text className='headerButtonText'  marginLeft="4px">Create Article</Text></Button>
+          <Button color="GrayText" variant="unstyled" onClick={handleEditProfile} marginRight="5"  display="flex"><BsPencilSquare/><Text className='headerButtonText' marginLeft="4px">Edit Profile</Text></Button>
           <Popover direction='ltr'>
             <PopoverTrigger>
               <Avatar className="avatarClass" size='sm' src={userData.image} />

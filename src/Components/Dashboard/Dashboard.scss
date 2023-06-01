@@ -1,11 +1,11 @@
 .mainContainer {
-  padding: 20px;
+  padding: 30px;
   display: flex;
   flex-wrap: wrap;
 }
 
 .container {
-  background-color: rgb(232 240 255);
+  background-color: #d9d0c0;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   width: 46%;
@@ -21,7 +21,7 @@
 
 .usernameAvatarConatainer {
   display: flex;
-  color: rgb(148, 148, 148);
+  color: rgb(0, 0, 0);
 }
 
 .usrnameFavouriteCountConatainer {
@@ -35,7 +35,7 @@
 }
 
 .userName:hover {
-  color: rgb(103, 93, 254);
+  color: rgb(66, 66, 66)  ;
 }
 
 
@@ -55,7 +55,8 @@
 }
 
 .titleConatiner:hover {
-  color: rgb(65, 72, 150);
+  color: rgb(66, 66, 66);
+  transition: 0.2s all ease-in-out;
 }
 
 .articleFooter {
@@ -87,8 +88,9 @@
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 550px) {
   .container {
-    margin: 10px 0
+    margin: 10px 0;
+    padding: 10px 5px;
   }
 }

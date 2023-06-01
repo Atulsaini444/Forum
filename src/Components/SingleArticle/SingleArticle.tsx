@@ -41,7 +41,7 @@ const SingleArticle = () => {
       /></div> : (
         <>
           <Box className='headingWrapper'>
-            <Text className='headingTitle' fontSize='4xl' as='b'>
+            <Text className='headingTitle' fontSize={{ base: "24px", md: "xl", lg: "4xl" }} as='b'>
               {singleArticle?.title}
             </Text>
             <Box className='headingUserInformation '>
@@ -57,15 +57,15 @@ const SingleArticle = () => {
                     year: "numeric",
                   })}</Text>
                 </Box>
+              </Box>
                 <Box className='favouriteCounterSingleArticle'>
                   ❤️Favourite Articles({singleArticle.favoritesCount})
                 </Box>
-              </Box>
             </Box>
 
           </Box>
           <Box className='bodyWrapper'>
-            <Text fontSize="xl">
+            <Text fontSize={{ base: "16px", md: "xl", lg: "xl" }} >
               {singleArticle.body}
             </Text>
           </Box>

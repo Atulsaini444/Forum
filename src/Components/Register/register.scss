@@ -2,15 +2,27 @@
   margin: 90px auto;
   max-width: 500px;
   padding: 20px 20px;
-  background: rgb(251, 251, 251);
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border: 1px solid gray;
+  color: gray;
    button {
     width: 100%;
    }
    a{
-    color: rgb(0,102,215);
+    color: #9f7aea;
    }
 }
+
+.registerFormWrapper  button:hover {
+  background-color: #8a56f3;
+  transition: 0.3s all ease-in-out;
+}
+
+@media only screen and (max-width: 550px) {
+  .registerFormWrapper {
+    margin: 90px 20px;
+  }
+}
+
 
 

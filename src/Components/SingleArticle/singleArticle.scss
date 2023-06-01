@@ -8,6 +8,10 @@
   display: flex;
   margin-top: 20px;
 }
+.headingUserInformation {
+  display: flex;
+  align-items: end;
+}
 
 .favouriteCounterSingleArticle {
   border: 1px solid white;
@@ -22,12 +26,27 @@
 
 .bodyWrapper {
   margin: 30px 50px;
+  color: #d9d0c0;
 }
 
 @media (max-width: 550px) {
   .headingWrapper {
     padding: 20px 30px;
  }
+ .usernameAvatarConatainerSingle {
+  display: flex;  
+  margin-top: 20px;
+}
+.headingUserInformation {
+  display: flex;
+  flex-direction: column;
+  align-items:flex-start;
+}
+.favouriteCounterSingleArticle{
+  margin: 10px 0 0 0;
+
+}
+
  .bodyWrapper {
   margin: 30px 30px;
 }

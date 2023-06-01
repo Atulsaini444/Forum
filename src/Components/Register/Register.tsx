@@ -49,7 +49,7 @@ const Register = () => {
     <div>
       <Box>
         <Box className='registerFormWrapper'>
-        <Text fontSize="2xl" fontWeight="700" color='blue.600' textAlign="center">Register</Text>
+        <Text fontSize="2xl" fontWeight="700" color='purple.400' textAlign="center">Register</Text>
           <form onSubmit={formik.handleSubmit}>
             <Text marginTop="2">Username</Text>
             <Input
@@ -75,7 +75,7 @@ const Register = () => {
               onChange={formik.handleChange}
               value={formik.values.password} />
             {formik?.errors?.password && <Text color="red">{formik.errors.password}</Text>}
-            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' colorScheme="messenger" type='submit' margin="20px 0">Submit</Button>
+            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' backgroundColor="purple.400" color="white" type='submit' margin="20px 0">Submit</Button>
             <Text>
               Already have any account? <Link to="/login">Log in</Link>
             </Text>

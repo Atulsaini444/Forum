@@ -55,17 +55,17 @@ const Dashboard = () => {
               </div>
             </div>
             <div className='titleAndDescriptionConatainer'>
-              <Text onClick={()=>handleTitleClick(article.slug)} className="titleConatiner" fontSize="xl" color="gray.800" fontWeight="bold">
+              <Text onClick={()=>handleTitleClick(article.slug)} className="titleConatiner" fontSize="xl" color="black" fontWeight="bold">
                 {article.title}
               </Text>
-              <Text className='questiondescription' color='gray.500' fontWeight="thin">
+              <Text className='questiondescription' color='black' fontWeight="thin">
                 {article.description}
               </Text>
             </div>
             <div className="articleFooter">
               <div className='tagsContainer'>
                 {article.tagList.map((tag: string, index: number) => {
-                  return <Text className='singleTag' color='gray.500' key={index}>{tag}</Text>
+                  return <Text className='singleTag' color='black' key={index}>{tag}</Text>
                 })}
               </div>
             </div>

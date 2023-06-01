@@ -2,7 +2,7 @@ import { Box, Button, Input, Text, Textarea, useToast } from '@chakra-ui/react'
 import axios from 'axios';
 import { useFormik } from "formik";
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { editProfile } from '../../services/auth-service';
 import { SignupSchema } from '../../utils/SignUpSchema';
 import { useAppStore, userData } from '../../zustand/store';
@@ -78,7 +78,7 @@ const EditProfile = () => {
     <div>
       <Box>
         <Box className='registerFormWrapper'>
-          <Text fontSize="2xl" fontWeight="700" color='blue.600' textAlign="center">Edit Profile</Text>
+          <Text fontSize="2xl" fontWeight="700" color='purple.400' textAlign="center">Edit Profile</Text>
           <form onSubmit={formik.handleSubmit}>
             <Text marginTop="2">Username</Text>
             <Input
@@ -111,7 +111,7 @@ const EditProfile = () => {
               onChange={formik.handleChange}
               value={formik.values.password} />
             {formik?.errors?.password && <Text color="red">{formik.errors.password}</Text>}
-            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' colorScheme="messenger" type='submit' margin="20px 0">Submit</Button>
+            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' backgroundColor="purple.400" color="white" type='submit' margin="20px 0">Submit</Button>
           </form>
         </Box>
       </Box>

@@ -37,7 +37,7 @@ const UserProfile = () => {
     <Box className='profileWrapper'>
       <Box className='profileAvatarInformation '>
       <Avatar size='xl' src={profile?.image} />
-      <Text fontSize="2xl" as="b" fontFamily="sans-serif" color="gray.700" marginTop="10px">{profile?.username}</Text>
+      <Text fontSize="2xl" as="b" fontFamily="sans-serif" color="GrayText" marginTop="10px">{profile?.username}</Text>
       </Box>
 
     </Box>

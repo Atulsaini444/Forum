@@ -1,7 +1,8 @@
 .headerWrapper {
   position:sticky;
   height: 60px;
-  background: rgb(248, 248, 248);
+  background-color: #0f0d0e!important;
+  background-image: repeating-linear-gradient(to right,#231f20,#231f20 1px,transparent 1px,transparent 30px),repeating-linear-gradient(to bottom,#231f20,#231f20 1px,transparent 1px,transparent 30px)!important;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,10 +16,22 @@
 .headerButtonsWrapper {
   display: flex;
   align-items: center;
+  div {
+    z-index: 999;
+  }
 }
 
 @media (max-width: 600px) {
   .headerWrapper {
-    padding: 0 20px;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 440px) {
+  .headerButtonsWrapper button {
+    margin-right: 7px;
+  }
+  .headerButtonText {
+    display: none;
   }
 }

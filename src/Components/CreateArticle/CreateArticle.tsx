@@ -58,7 +58,7 @@ const CreateArticle = () => {
     <div>
       <Box>
         <Box className='registerFormWrapper'>
-          <Text fontSize="2xl" fontWeight="700" color='blue.600' textAlign="center">Create Article</Text>
+          <Text fontSize="2xl" fontWeight="700" color='purple.400' textAlign="center">Create Article</Text>
           <form onSubmit={formik.handleSubmit}>
             <Text marginTop="2">Article Title</Text>
             <Input
@@ -85,7 +85,7 @@ const CreateArticle = () => {
             value={formik.values.body}
             />
             {formik?.errors?.body && <Text color="red">{formik?.errors?.body}</Text>}
-            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' colorScheme="messenger" type='submit' margin="20px 0">Create Article</Button>
+            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' backgroundColor="purple.400" color="white" type='submit' margin="20px 0">Create Article</Button>
           </form>
         </Box>
       </Box>

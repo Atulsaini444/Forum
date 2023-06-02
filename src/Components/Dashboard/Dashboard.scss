@@ -5,7 +5,7 @@
 }
 
 .container {
-  background-color: #d9d0c0;
+  background-color: #1f1f1f;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   width: 46%;
@@ -21,7 +21,7 @@
 
 .usernameAvatarConatainer {
   display: flex;
-  color: rgb(0, 0, 0);
+  color: white;
 }
 
 .usrnameFavouriteCountConatainer {
@@ -35,14 +35,19 @@
 }
 
 .userName:hover {
-  color: rgb(66, 66, 66)  ;
+  color: rgb(114, 114, 114)  ;
 }
 
 
 .favouritesCount {
-  border: 1px solid;
+  border: 1px solid white;
   border-radius: 5px;
   padding: 5px 5px;
+  cursor: pointer;
+}
+
+.favouritesCount:hover {
+  border: 1px solid rgb(135, 133, 133);
 }
 
 .titleConatiner {
@@ -55,7 +60,7 @@
 }
 
 .titleConatiner:hover {
-  color: rgb(66, 66, 66);
+  color: rgb(164, 164, 164);
   transition: 0.2s all ease-in-out;
 }
 

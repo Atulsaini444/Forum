@@ -5,6 +5,7 @@ import './Dashboard.scss'
 import useFetch from '../../Hooks/useFetch';
 import { useNavigate } from 'react-router-dom';
 import ScrollToTopButton from '../ScrollToTop/ScrollToTopButton';
+import axios from 'axios';
 const Dashboard = () => {
   const [offset, setOffset] = useState(0)
   const loader = useRef(null);
@@ -23,6 +24,17 @@ const Dashboard = () => {
   const handleUserName = (username:string) => {
     navigate(`/${username}`)
 
+  }
+
+  const handleLikeClick = async(favourite:boolean,slug:string) => {
+    if(favourite){
+      const res = await axios.post(`https://api.realworld.io/api/articles/${slug}/favorite`)
+      console.log("response from favourite ====> ",res)
+    }else {
+      const res = await axios.delete(`https://api.realworld.io/api/articles/${slug}/favorite`)
+      console.log("response from favourite ====> ",res)
+
+    }
   }
 
   useEffect(() => {
@@ -50,22 +62,22 @@ const Dashboard = () => {
                   {article.author.username}
                 </div>
               </div>
-              <div className='favouritesCount'>
-              ❤️{article.favoritesCount}
+              <div className='favouritesCount' onClick={()=>handleLikeClick(article.favorited,article.slug)}>
+              <Text color="white">❤️{article.favoritesCount}</Text>
               </div>
             </div>
             <div className='titleAndDescriptionConatainer'>
-              <Text onClick={()=>handleTitleClick(article.slug)} className="titleConatiner" fontSize="xl" color="black" fontWeight="bold">
+              <Text onClick={()=>handleTitleClick(article.slug)} className="titleConatiner" fontSize="xl" color="white" fontWeight="bold">
                 {article.title}
               </Text>
-              <Text className='questiondescription' color='black' fontWeight="thin">
+              <Text className='questiondescription' color='white' fontWeight="thin">
                 {article.description}
               </Text>
             </div>
             <div className="articleFooter">
               <div className='tagsContainer'>
                 {article.tagList.map((tag: string, index: number) => {
-                  return <Text className='singleTag' color='black' key={index}>{tag}</Text>
+                  return <Text className='singleTag' color='white' key={index}>{tag}</Text>
                 })}
               </div>
             </div>

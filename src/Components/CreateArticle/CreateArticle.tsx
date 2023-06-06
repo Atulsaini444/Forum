@@ -48,7 +48,6 @@ const CreateArticle = () => {
 
   const createNewArticle = async (data:any) => {
       const res = await axios.get(`https://api.realworld.io/api/articles`,data)
-      console.log(res)
   }
 
 

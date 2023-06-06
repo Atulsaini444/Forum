@@ -21,6 +21,10 @@
   }
 }
 
+.headerButton1:hover, .headerButton2:hover {
+  color: rgb(168, 165, 165);
+}
+
 @media (max-width: 600px) {
   .headerWrapper {
     padding: 0 10px;

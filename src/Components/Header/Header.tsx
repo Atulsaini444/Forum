@@ -56,8 +56,8 @@ const Header = () => {
       <div className='headerButtonsWrapper'>
         {token ? (
         <>
-          <Button color="GrayText" variant="unstyled" onClick={handleCreateArticle} marginRight="5" display="flex"><BsFillPencilFill/><Text className='headerButtonText'  marginLeft="4px">Create Article</Text></Button>
-          <Button color="GrayText" variant="unstyled" onClick={handleEditProfile} marginRight="5"  display="flex"><BsPencilSquare/><Text className='headerButtonText' marginLeft="4px">Edit Profile</Text></Button>
+          <Button color="GrayText" variant="unstyled" onClick={handleCreateArticle} marginRight="5" display="flex"><BsFillPencilFill/><Text className='headerButtonText headerButton1'  marginLeft="4px">Create Article</Text></Button>
+          <Button color="GrayText" variant="unstyled" onClick={handleEditProfile} marginRight="5"  display="flex"><BsPencilSquare/><Text className='headerButtonText headerButton1' marginLeft="4px">Edit Profile</Text></Button>
           <Popover direction='ltr'>
             <PopoverTrigger>
               <Avatar className="avatarClass" size='sm' src={userData.image} />

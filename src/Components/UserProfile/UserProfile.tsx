@@ -1,7 +1,7 @@
 import { Avatar, Box, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import React,{useEffect, useState} from 'react'
-import { ColorRing } from 'react-loader-spinner';
+import { ColorRing, ThreeDots } from 'react-loader-spinner';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppStore, userData } from '../../zustand/store';
 import './userProfile.scss';
@@ -11,6 +11,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const[profile, setProfile] = useState<userData|undefined>()
   const [loading, setLoading] = useState<boolean>(false)
+  const [loading2, setLoading2] = useState<boolean>(false)
   const setUserArticles = useAppStore((state: any) => state.setUserArticles)
   const userArticles = useAppStore((state: any) => state.userArticles)
   const getUserProfile = async(slug: string|undefined) => {
@@ -23,6 +24,7 @@ const UserProfile = () => {
     getUserProfile(param.username).then(()=>{
       setLoading(false)
     }).catch((err)=>{
+      setLoading(false)
       console.log("error in fetching single article", err)
     })
   }, [])
@@ -34,7 +36,13 @@ const UserProfile = () => {
   }
   useEffect(()=>{
     if(profile){
-      getUserArticles()
+      setLoading2(true)
+      getUserArticles().then((res)=>{
+        setLoading2(false)
+      }).catch((err)=>{
+        setLoading2(false)
+        console.log(err)
+      })
     }
   },[profile])
 
@@ -60,8 +68,11 @@ const UserProfile = () => {
       </Box>
 
     </Box>
+        <Text fontSize={{ base: "24px", md: "2xl", lg: "4xl" }} fontFamily="sans-serif" color="GrayText" className='articlesHeading'>My Articles</Text>
       <Box className='mainContainer'>
-      {userArticles && userArticles.map((article: any, index: number) => {
+      {loading2 ? <div className='loaderWrapper'><ThreeDots
+      color="#9F7AEA" visible={true} height={60} width={60}
+    /></div> : userArticles.map((article: any, index: number) => {
         return (
           <div key={index} className="container">
             <div className='usrnameFavouriteCountConatainer'>
@@ -88,13 +99,13 @@ const UserProfile = () => {
             <div className="articleFooter">
               <div className='tagsContainer'>
                 {article.tagList.map((tag: string, index: number) => {
-                  return <Text className='singleTag' color='white' key={index}>{tag}</Text>
+                  return <Text className='singleTag' color='#419fff' key={index}>#{tag}</Text>
                 })}
               </div>
             </div>
           </div>
         )
-      })}
+      }) }
       </Box>
     </>
   )}

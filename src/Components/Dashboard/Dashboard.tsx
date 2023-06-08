@@ -54,6 +54,7 @@ const Dashboard = () => {
   }, [handleObserver]);
   return (
     <>
+    <Text fontSize={{ base: "24px", md: "2xl", lg: "4xl" }}  color="GrayText" className='articlesHeading'>Global Feed</Text>
      <div className='mainContainer'>
 
       {articlesData && articlesData.map((article: any, index: number) => {
@@ -76,14 +77,14 @@ const Dashboard = () => {
               <Text onClick={()=>handleTitleClick(article.slug)} className="titleConatiner" fontSize="xl" color="white" fontWeight="bold">
                 {article.title}
               </Text>
-              <Text className='questiondescription' color='white' fontWeight="thin">
+              <Text className='questiondescription' color='#c9c9c9' fontWeight="thin">
                 {article.description}
               </Text>
             </div>
             <div className="articleFooter">
               <div className='tagsContainer'>
                 {article.tagList.map((tag: string, index: number) => {
-                  return <Text className='singleTag' color='white' key={index}>{tag}</Text>
+                  return <Text className='singleTag' color='#419fff' key={index}>#{tag}</Text>
                 })}
               </div>
             </div>

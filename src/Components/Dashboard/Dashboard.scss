@@ -1,5 +1,5 @@
 .mainContainer {
-  padding: 30px;
+  padding: 10px 30px 30px 30px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -40,14 +40,13 @@
 
 
 .favouritesCount {
-  border: 1px solid white;
-  border-radius: 5px;
   padding: 5px 5px;
   cursor: pointer;
 }
 
 .favouritesCount:hover {
   border: 1px solid rgb(135, 133, 133);
+  border-radius: 5px;
 }
 
 .titleConatiner {
@@ -75,16 +74,14 @@
 }
 
 .singleTag {
-  padding: 5px;
-  border: 1px solid;
   margin-right: 8px;
   margin-top: 5px;
-  border-radius: 5px;
 }
 
 .loaderWrapper {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 @media (max-width: 1040px) {
@@ -96,6 +93,5 @@
 @media (max-width: 550px) {
   .container {
     margin: 10px 0;
-    padding: 10px 5px;
   }
 }

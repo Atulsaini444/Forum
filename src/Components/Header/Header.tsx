@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Header.scss'
-import { Avatar, Button, Popover, PopoverBody, PopoverContent, PopoverTrigger, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Popover, PopoverBody, PopoverContent, PopoverTrigger, Text } from '@chakra-ui/react';
 import {BsFillPencilFill, BsPencilSquare} from 'react-icons/bs';
 import { useAppStore } from '../../zustand/store'
 import jwt_decode from "jwt-decode";
@@ -57,7 +57,9 @@ const Header = () => {
         {token ? (
         <>
           <Button color="GrayText" variant="unstyled" onClick={handleCreateArticle} marginRight="5" display="flex"><BsFillPencilFill/><Text className='headerButtonText headerButton1'  marginLeft="4px">Create Article</Text></Button>
-          <Button color="GrayText" variant="unstyled" onClick={handleEditProfile} marginRight="5"  display="flex"><BsPencilSquare/><Text className='headerButtonText headerButton1' marginLeft="4px">Edit Profile</Text></Button>
+          <Button color="GrayText" variant="unstyled" onClick={handleEditProfile} marginRight="5"  display="flex"><BsPencilSquare/><Text className='headerButtonText' marginLeft="4px">Edit Profile</Text></Button>
+          <Box>
+
           <Popover direction='ltr'>
             <PopoverTrigger>
               <Avatar className="avatarClass" size='sm' src={userData.image} />
@@ -67,6 +69,7 @@ const Header = () => {
               <PopoverBody onClick={handleLogOut}>Logout</PopoverBody>
             </PopoverContent>
           </Popover>
+          </Box>
         </>
         ) : (
           <Button variant="solid" colorScheme="messenger" onClick={handleSignInClick}>Log in</Button>

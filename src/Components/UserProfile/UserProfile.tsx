@@ -12,8 +12,9 @@ const UserProfile = () => {
   const[profile, setProfile] = useState<userData|undefined>()
   const [loading, setLoading] = useState<boolean>(false)
   const [loading2, setLoading2] = useState<boolean>(false)
-  const setUserArticles = useAppStore((state: any) => state.setUserArticles)
-  const userArticles = useAppStore((state: any) => state.userArticles)
+  const [userArticles,setUserArticles] = useState<any>([])
+  // const setUserArticles = useAppStore((state: any) => state.setUserArticles)
+  // const userArticles = useAppStore((state: any) => state.userArticles)
   const getUserProfile = async(slug: string|undefined) => {
     const res = await axios.get(`https://api.realworld.io/api/profiles/${slug}`)
     setProfile(res.data.profile)
@@ -72,7 +73,7 @@ const UserProfile = () => {
       <Box className='mainContainer'>
       {loading2 ? <div className='loaderWrapper'><ThreeDots
       color="#9F7AEA" visible={true} height={60} width={60}
-    /></div> : userArticles.map((article: any, index: number) => {
+    /></div> :userArticles.length>0? userArticles.map((article: any, index: number) => {
         return (
           <div key={index} className="container">
             <div className='usrnameFavouriteCountConatainer'>
@@ -105,7 +106,9 @@ const UserProfile = () => {
             </div>
           </div>
         )
-      }) }
+      }): <Text  color='grey' marginLeft='22px' >
+      No articles to show...
+    </Text> }
       </Box>
     </>
   )}

@@ -37,7 +37,7 @@ const EditProfile = () => {
           duration: 6000,
           isClosable: true,
         })
-        navigate('/login')
+        navigate('/')
       })
         .catch((error) => {
           setIsLoading(false)
@@ -63,7 +63,7 @@ const EditProfile = () => {
         image: currentUser?.image
       });
     }
-  }, [currentUser, formik.setValues]);
+  }, [currentUser]);
 
   const getCurrentUser = async () => {
     const res = await axios.get(`https://api.realworld.io/api/user`)

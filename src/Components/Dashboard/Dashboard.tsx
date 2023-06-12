@@ -12,7 +12,7 @@ const Dashboard = () => {
   const loader = useRef(null);
   const navigate = useNavigate();
   const setArticles = useAppStore((state: any) => state.setArticles)
-  // const setUpdateFavourite = useAppStore((state: any) => state.setUpdateFavourite)
+  const setUpdateFavourite = useAppStore((state: any) => state.setUpdateFavourite)
   const { loading, error, articlesData } = useFetch(offset)
   const handleObserver = useCallback((entries: any) => {
     const target = entries[0];
@@ -32,7 +32,7 @@ const Dashboard = () => {
 
   const handleLikeClick = async(favourite:boolean,slug:string) => {
     const requiredArticle = articlesData.find((articlesData:any)=> articlesData.slug===slug);
-    // setUpdateFavourite(requiredArticle)
+    setUpdateFavourite(slug)
     if(favourite){
       const res = await axios.post(`https://api.realworld.io/api/articles/${slug}/favorite`)
       console.log("response from favourite ====> ",res)

@@ -3,6 +3,7 @@ import axios from 'axios';
 import React,{useEffect, useState} from 'react'
 import { ColorRing, ThreeDots } from 'react-loader-spinner';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getUserArticles, getUserProfile } from '../../services/auth-service';
 import { useAppStore, userData } from '../../zustand/store';
 import './userProfile.scss';
 
@@ -15,14 +16,11 @@ const UserProfile = () => {
   const [userArticles,setUserArticles] = useState<any>([])
   // const setUserArticles = useAppStore((state: any) => state.setUserArticles)
   // const userArticles = useAppStore((state: any) => state.userArticles)
-  const getUserProfile = async(slug: string|undefined) => {
-    const res = await axios.get(`https://api.realworld.io/api/profiles/${slug}`)
-    setProfile(res.data.profile)
-  }
 
   useEffect(() => {
     setLoading(true)
-    getUserProfile(param.username).then(()=>{
+    getUserProfile(param.username).then((res:any)=>{
+      setProfile(res?.data?.profile)
       setLoading(false)
     }).catch((err)=>{
       setLoading(false)
@@ -30,15 +28,11 @@ const UserProfile = () => {
     })
   }, [])
 
-  const getUserArticles = async() => {
-    const res = await axios.get(`https://api.realworld.io/api/articles?author=${profile?.username}&limit=10&offset=0`)
-    console.log(res)
-    setUserArticles(res?.data?.articles)
-  }
   useEffect(()=>{
     if(profile){
       setLoading2(true)
-      getUserArticles().then((res)=>{
+      getUserArticles(profile?.username).then((res:any)=>{
+        setUserArticles(res?.data?.articles)
         setLoading2(false)
       }).catch((err)=>{
         setLoading2(false)

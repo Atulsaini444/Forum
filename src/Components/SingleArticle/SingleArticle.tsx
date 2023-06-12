@@ -3,6 +3,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { ColorRing } from 'react-loader-spinner'
 import { useParams } from 'react-router-dom'
+import { getSingleArticle } from '../../services/auth-service'
 import { useAppStore } from '../../zustand/store'
 import './singleArticle.scss'
 
@@ -11,14 +12,11 @@ const SingleArticle = () => {
   const [loading, setLoading] = useState(false)
   const singleArticle = useAppStore((state: any) => state.singleArticle)
   const setSingleArticle = useAppStore((state: any) => state.setSingleArticle)
-  const getSingleArticle = async (slug: string | undefined) => {
-    const res = await axios.get(`https://api.realworld.io/api/articles/${slug}`)
-    setSingleArticle(res.data.article)
-  }
 
   useEffect(() => {
     setLoading(true)
-    getSingleArticle(param.slug).then(() => {
+    getSingleArticle(param.slug).then((res:any) => {
+      setSingleArticle(res?.data?.article)
       setLoading(false)
     }).catch((err) => {
       console.log("error in fetching single article", err)

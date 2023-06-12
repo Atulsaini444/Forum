@@ -1,8 +1,8 @@
 import { Box, Button, Input, Text, Textarea, useToast } from '@chakra-ui/react'
-import axios from 'axios';
 import { useFormik } from "formik";
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { createNewArticle } from '../../services/auth-service';
 import { ArticleSchema } from '../../utils/ArticleSchema';
 
 const CreateArticle = () => {
@@ -45,13 +45,6 @@ const CreateArticle = () => {
         })
     },
   })
-
-  const createNewArticle = async (data:any) => {
-      const res = await axios.get(`https://api.realworld.io/api/articles`,data)
-  }
-
-
-
 
   return (
     <div>

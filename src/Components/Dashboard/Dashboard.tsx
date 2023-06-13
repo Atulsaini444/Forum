@@ -9,7 +9,10 @@ import axios from "axios";
 import { useAppStore } from "../../zustand/store";
 const Dashboard = () => {
   const [offset, setOffset] = useState(0);
-  const [loaderLoading, setLoaderLoading] = useState({slug: "", isShow: false});
+  const [loaderLoading, setLoaderLoading] = useState({
+    slug: "",
+    isShow: false,
+  });
   const loader = useRef(null);
   const toast = useToast();
   const navigate = useNavigate();
@@ -32,8 +35,7 @@ const Dashboard = () => {
   };
 
   const handleLikeClick = async (favourite: boolean, slug: string) => {
-
-    setLoaderLoading({slug: slug, isShow:true});
+    setLoaderLoading({ slug: slug, isShow: true });
     if (favourite) {
       const res = await axios
         .delete(`https://api.realworld.io/api/articles/${slug}/favorite`)
@@ -56,7 +58,7 @@ const Dashboard = () => {
           });
         });
       setUpdateFavourite(slug, false);
-      setLoaderLoading({slug: "", isShow:false});
+      setLoaderLoading({ slug: "", isShow: false });
     } else {
       const res = await axios
         .post(`https://api.realworld.io/api/articles/${slug}/favorite`)
@@ -79,7 +81,7 @@ const Dashboard = () => {
           });
         });
       setUpdateFavourite(slug, true);
-      setLoaderLoading({slug: "", isShow:false});
+      setLoaderLoading({ slug: "", isShow: false });
     }
   };
 
@@ -119,14 +121,12 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div
-                    className={`favouritesCount ${
-                      article.favorited && "favorited"
-                    }`}
                     onClick={() =>
                       handleLikeClick(article.favorited, article.slug)
                     }
                   >
-                    {loaderLoading.slug===article.slug && loaderLoading.isShow ? (
+                    {loaderLoading.slug === article.slug &&
+                    loaderLoading.isShow ? (
                       <Vortex
                         visible={true}
                         height="30"
@@ -143,8 +143,14 @@ const Dashboard = () => {
                           "purple",
                         ]}
                       />
-                      ) : (
-                      <Text color="white">❤️{article.favoritesCount}</Text>
+                    ) : (
+                      <div
+                        className={`favouritesCount ${
+                          article.favorited && "favorited"
+                        }`}
+                      >
+                        <Text color="white">❤️{article.favoritesCount}</Text>
+                      </div>
                     )}
                   </div>
                 </div>

@@ -11,6 +11,7 @@ import {
   PopoverTrigger,
   Portal,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { BsFillPencilFill, BsPencilSquare } from "react-icons/bs";
 import { useAppStore } from "../../zustand/store";
@@ -23,6 +24,7 @@ const Header = () => {
   const userData = useAppStore((state: any) => state.userData);
   const setUser = useAppStore((state: any) => state.setUser);
   const navigate = useNavigate();
+  const toast = useToast();
 
   useEffect(() => {
     if (token) {
@@ -39,6 +41,13 @@ const Header = () => {
     setUser({});
     localStorage.clear();
     setToken(null);
+    toast({
+      title: "Logged out successfully",
+      status: "success",
+      position: "top-right",
+      duration: 4000,
+      isClosable: true,
+    });
     navigate("/login");
   };
 

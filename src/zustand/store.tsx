@@ -21,8 +21,15 @@ export const useAppStore = create((set) => ({
   setSingleArticle: (data:any) => set((state:any)=> ({singleArticle: data})),  
   setUserArticles: (data: any) => set((state:any) => ({userArticles: [...state.userArticles, ...data]}) ),
   setUpdateFavourite: (slug:any)=> set((state:any) => {
-    const requiredArticle = state.articlesData.find((articlesData:any)=> articlesData.slug===slug)
-    console.log("my data is",slug, requiredArticle)
-    return state
+    const data = state.articlesData.map((item:any)=>{
+      if(item.slug===slug){
+        console.log("inside if")
+        return {...item, favoritesCount: item.favoritesCount + 1}
+      }
+      return item
+    })
+
+    console.log("data is ==> ",data)
+    return ({articlesData: [...state.articlesData, ...data]})
   })
 }))

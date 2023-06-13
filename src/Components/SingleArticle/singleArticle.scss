@@ -29,6 +29,52 @@
   color: #d9d0c0;
 }
 
+.commentSection {
+   color: white;
+   max-width: 60%;
+   margin: auto;
+   border: 1px solid rgb(251, 252, 233);
+   border-radius: 5px;
+   margin-bottom: 20px;
+}
+
+.commentUserWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comments {
+  padding: 20px 20px 10px 20px;
+}
+
+.commentForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+.commentSection  button:hover {
+  background-color: #8a56f3;
+  transition: 0.3s all ease-in-out;
+}
+
+.commentSection > form > button {
+  margin-right: 20px;
+}
+
+.textArea {
+  border: none!important;
+  border-radius: 0px !important;
+  border-bottom: 1px solid rgb(251, 252, 233)!important;
+  background: #fffdfd1c!important;
+}
+
+.textArea:focus {
+  outline: none !important;
+  border-color: none!important;
+}
+
 @media (max-width: 550px) {
   .headingWrapper {
     padding: 20px 30px;

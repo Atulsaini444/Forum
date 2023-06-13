@@ -119,9 +119,6 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div
-                    className={`favouritesCount ${
-                      article.favorited && "favorited"
-                    }`}
                     onClick={() =>
                       handleLikeClick(article.favorited, article.slug)
                     }
@@ -144,7 +141,9 @@ const Dashboard = () => {
                         ]}
                       />
                       ) : (
-                      <Text color="white">❤️{article.favoritesCount}</Text>
+                      <Text color="white"className={`favouritesCount ${
+                        article.favorited && "favorited"
+                      }`}>❤️{article.favoritesCount}</Text>
                     )}
                   </div>
                 </div>

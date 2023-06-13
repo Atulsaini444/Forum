@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Text, Textarea } from "@chakra-ui/react";
+import { Avatar, Box, Button, Text, Textarea, useToast } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { ColorRing } from "react-loader-spinner";
@@ -15,9 +15,10 @@ import "./singleArticle.scss";
 
 const SingleArticle = () => {
   const param = useParams();
+  const toast = useToast();
   const [loading, setLoading] = useState(false);
   const [isAddCommentLoading, setIsAddCommentLoading] = useState(false);
-  const [isDeleteCommentLoading, setIsDeleteCommentLoading] = useState(false);
+  const [isDeleteCommentLoading, setIsDeleteCommentLoading] = useState({id: 0 , isShow: false});
   const [commentsData, setCommentsData] = useState([]);
   const formik = useFormik({
     initialValues: {
@@ -29,6 +30,13 @@ const SingleArticle = () => {
       postComment(param.slug, { comment: values })
         .then((res) => {
           setIsAddCommentLoading(false);
+          toast({
+            title: "Comment added successfully",
+            status: "success",
+            position: "top-right",
+            duration: 4000,
+            isClosable: true,
+          });
           getComments(param.slug).then((res: any) => {
             setCommentsData(res?.data?.comments);
           });
@@ -40,14 +48,21 @@ const SingleArticle = () => {
   });
 
   const handleCommentDelete = (id:number) => {
-    setIsDeleteCommentLoading(true)
+    setIsDeleteCommentLoading({id: id, isShow:true})
     deleteComment(param.slug,id).then((res)=>{
-      setIsDeleteCommentLoading(false)
+      toast({
+        title: "Comment deleted successfully",
+        status: "success",
+        position: "top-right",
+        duration: 4000,
+        isClosable: true,
+      });
+      setIsDeleteCommentLoading({id: id, isShow:false})
       getComments(param.slug).then((res: any) => {
         setCommentsData(res?.data?.comments);
       });
     }).catch(() => {
-      setIsDeleteCommentLoading(false)
+      setIsDeleteCommentLoading({id: id, isShow:false})
     })
   }
 
@@ -139,6 +154,7 @@ const SingleArticle = () => {
                 onChange={formik.handleChange}
                 value={formik.values.body}
               />
+              {formik?.errors?.body && <Text color="red">{formik.errors.body}</Text>}
               <Button
                 isLoading={isAddCommentLoading}
                 loadingText="Loading"
@@ -154,9 +170,9 @@ const SingleArticle = () => {
           </Box>
           <Box>
             {commentsData.length > 0 &&
-              commentsData.map((comment: any) => {
+              commentsData.map((comment: any, index:number) => {
                 return (
-                  <Box className="commentSection comments">
+                  <Box key={index} className="commentSection comments">
                     <Box>{comment.body}</Box>
                     <Box className="commentUserWrapper">
                       <Box className="usernameAvatarConatainerSingle">
@@ -180,7 +196,7 @@ const SingleArticle = () => {
                         </Box>
                       </Box>
                       <Button
-                        isLoading={isDeleteCommentLoading}
+                        isLoading={isDeleteCommentLoading.id === comment?.id && isDeleteCommentLoading.isShow === true}
                         loadingText="Loading"
                         spinnerPlacement="end"
                         backgroundColor="purple.400"

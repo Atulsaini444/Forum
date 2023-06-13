@@ -75,7 +75,7 @@ const Header = () => {
               display="flex"
             >
               <BsFillPencilFill />
-              <Text className="headerButtonText headerButton1" marginLeft="4px">
+              <Text className="headerButtonText" marginLeft="4px">
                 Create Article
               </Text>
             </Button>

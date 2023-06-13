@@ -1,13 +1,14 @@
 .headingWrapper {
-   background: rgb(50,50,50);
-   color: white;
-   padding: 20px 50px;
+  background: rgb(50, 50, 50);
+  color: white;
+  padding: 20px 50px;
 }
 
 .usernameAvatarConatainerSingle {
   display: flex;
   margin-top: 20px;
 }
+
 .headingUserInformation {
   display: flex;
   align-items: end;
@@ -29,25 +30,90 @@
   color: #d9d0c0;
 }
 
+.commentSection {
+  color: white;
+  max-width: 60%;
+  margin: auto;
+  border: 1px solid rgb(251, 252, 233);
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.commentUserWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comments {
+  padding: 20px 20px 10px 20px;
+}
+
+.commentForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+
+  p {
+    align-self: flex-start;
+  }
+}
+
+.commentSection button:hover {
+  background-color: #8a56f3;
+  transition: 0.3s all ease-in-out;
+}
+
+.commentSection>form>button {
+  margin-right: 20px;
+}
+
+.textArea {
+  border: none !important;
+  border-radius: 0px !important;
+  border-bottom: 1px solid rgb(251, 252, 233) !important;
+  background: #fffdfd1c !important;
+}
+
+.textArea:focus {
+  box-shadow: none!important;
+}
+
+@media (max-width: 1040px) {
+  .commentSection {
+    max-width: 80%;
+  }
+}
+
 @media (max-width: 550px) {
   .headingWrapper {
     padding: 20px 30px;
- }
- .usernameAvatarConatainerSingle {
-  display: flex;  
-  margin-top: 20px;
-}
-.headingUserInformation {
-  display: flex;
-  flex-direction: column;
-  align-items:flex-start;
-}
-.favouriteCounterSingleArticle{
-  margin: 10px 0 0 0;
+  }
 
-}
+  .usernameAvatarConatainerSingle {
+    display: flex;
+    margin-top: 20px;
+  }
 
- .bodyWrapper {
-  margin: 30px 30px;
-}
+  .headingUserInformation {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .favouriteCounterSingleArticle {
+    margin: 10px 0 0 0;
+
+  }
+
+  .bodyWrapper {
+    margin: 30px 30px;
+  }
+
+  .commentUserWrapper {
+    display: flex;
+    flex-direction: column  ;
+    align-items: flex-start;
+  }
 }

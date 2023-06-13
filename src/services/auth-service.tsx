@@ -29,3 +29,22 @@ export const getUserArticles = async (username: string) => {
     `https://api.realworld.io/api/articles?author=${username}&limit=100&offset=0`
   );
 };
+
+export const postComment = async (slug: any,data: any) => {
+  return await axios.post(
+    `https://api.realworld.io/api/articles/${slug}/comments`,data
+  );
+};
+
+export const getComments = async (slug: any) => {
+  return await axios.get(
+    `https://api.realworld.io/api/articles/${slug}/comments`
+  );
+};
+
+export const deleteComment = async (slug: any, id:number) => {
+  return await axios.delete(
+    `https://api.realworld.io/api/articles/${slug}/comments/${id}`
+  );
+};
+

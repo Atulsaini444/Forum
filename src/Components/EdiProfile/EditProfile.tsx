@@ -111,7 +111,7 @@ const EditProfile = () => {
               onChange={formik.handleChange}
               value={formik.values.password} />
             {formik?.errors?.password && <Text color="red">{formik.errors.password}</Text>}
-            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' backgroundColor="purple.400" color="white" type='submit' margin="20px 0">Submit</Button>
+            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' backgroundColor="purple.500" color="white" type='submit' margin="20px 0">Submit</Button>
           </form>
         </Box>
       </Box>

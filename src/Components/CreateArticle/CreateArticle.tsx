@@ -77,7 +77,7 @@ const CreateArticle = () => {
             value={formik.values.body}
             />
             {formik?.errors?.body && <Text color="red">{formik?.errors?.body}</Text>}
-            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' backgroundColor="purple.400" color="white" type='submit' margin="20px 0">Create Article</Button>
+            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' backgroundColor="purple.500" color="white" type='submit' margin="20px 0">Create Article</Button>
           </form>
         </Box>
       </Box>

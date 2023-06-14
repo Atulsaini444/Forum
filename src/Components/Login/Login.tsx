@@ -69,7 +69,7 @@ const Login = () => {
               onChange={formik.handleChange}
               value={formik.values.password} />
                {formik?.errors?.password && <Text color="red">{formik.errors.password}</Text>}
-            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' backgroundColor="purple.500" color="white" type='submit' margin="20px 0">Login</Button>
+            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' backgroundColor="purple.600" color="white" type='submit' margin="20px 0">Login</Button>
             <Text >
               Don&apos;t have any account? <Link to="/signup">Sign Up</Link>
             </Text>

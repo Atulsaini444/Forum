@@ -159,7 +159,7 @@ const SingleArticle = () => {
                 isLoading={isAddCommentLoading}
                 loadingText="Loading"
                 spinnerPlacement="end"
-                backgroundColor="purple.500"
+                backgroundColor="purple.600"
                 color="white"
                 type="submit"
                 margin="20px 0"
@@ -199,7 +199,7 @@ const SingleArticle = () => {
                         isLoading={isDeleteCommentLoading.id === comment?.id && isDeleteCommentLoading.isShow === true}
                         loadingText="Loading"
                         spinnerPlacement="end"
-                        backgroundColor="purple.500"
+                        backgroundColor="purple.600"
                         onClick={()=>handleCommentDelete(comment.id)}
                         color="white"
                         type="submit"

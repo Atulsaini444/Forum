@@ -14,7 +14,6 @@ const EditProfile = () => {
   const toast = useToast()
   const navigate = useNavigate();
 
-  console.log(currentUser)
   const formik = useFormik({
     initialValues: {
       username: currentUser?.username || '',
@@ -111,7 +110,7 @@ const EditProfile = () => {
               onChange={formik.handleChange}
               value={formik.values.password} />
             {formik?.errors?.password && <Text color="red">{formik.errors.password}</Text>}
-            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' backgroundColor="purple.500" color="white" type='submit' margin="20px 0">Submit</Button>
+            <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' backgroundColor="purple.600" color="white" type='submit' margin="20px 0">Submit</Button>
           </form>
         </Box>
       </Box>

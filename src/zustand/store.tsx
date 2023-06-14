@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { register } from '../services/auth-service';
 
 export interface userData {
   bio?: string | undefined,
@@ -7,6 +6,7 @@ export interface userData {
   image: string,
   token:string,
   username: string
+  following?: boolean
 }
 
 export const useAppStore = create((set) => ({
@@ -23,7 +23,6 @@ export const useAppStore = create((set) => ({
   setUpdateFavourite: (slug:string,favourite: boolean)=> set((state:any) => {
     const data = state.articlesData.map((item:any)=>{
       if(item.slug===slug){
-        console.log("inside if")
         if(favourite){
           return {...item, favoritesCount: item.favoritesCount + 1, favorited: true}
         } else {
@@ -33,7 +32,6 @@ export const useAppStore = create((set) => ({
       return item
     })
 
-    console.log("data is ===> ",data)
     return ({articlesData: [...data]})
   })
 }))

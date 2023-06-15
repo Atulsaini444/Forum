@@ -15,18 +15,15 @@ import {
 import { BsFillPencilFill, BsPencilSquare } from "react-icons/bs";
 import { useAppStore } from "../../zustand/store";
 import jwt_decode from "jwt-decode";
+import { AppState, Decoded } from "../../utils/Interfaces";
 
 const Header = () => {
-  const [decoded, setDecoded] = useState<any>();
-  const token = useAppStore((state: any) => state.token);
-  const setToken = useAppStore((state: any) => state.setToken);
-  const userData = useAppStore((state: any) => state.userData);
-  const setUser = useAppStore((state: any) => state.setUser);
+  const [decoded, setDecoded] = useState<Decoded | undefined>();
+  const [token,setToken,userData,setUser] = useAppStore((state: AppState) =>[ state.token,state.setToken, state.userData, state.setUser]);
   const navigate = useNavigate();
-
   useEffect(() => {
     if (token) {
-      const decoded = jwt_decode(token);
+      const decoded:Decoded = jwt_decode(token);
       setDecoded(decoded);
     }
   }, [token]);
@@ -43,7 +40,7 @@ const Header = () => {
   };
 
   const handleProfileButton = () => {
-    navigate(`/${decoded.username}`);
+    navigate(`/${decoded?.username}`);
   };
 
   const handleEditProfile = () => {

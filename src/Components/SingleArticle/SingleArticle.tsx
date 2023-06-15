@@ -1,8 +1,10 @@
-import { Avatar, Box, Button, Text, Textarea, useToast } from "@chakra-ui/react";
+import { Avatar, Box, Button, Text, Textarea } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { ColorRing } from "react-loader-spinner";
 import { useParams } from "react-router-dom";
+import { createStandaloneToast } from '@chakra-ui/react'
+import { getToast } from '../../utils/getToast';
 import {
   deleteComment,
   getComments,
@@ -10,14 +12,17 @@ import {
   postComment,
 } from "../../services/auth-service";
 import { CommentSchema } from "../../utils/CommentSchema";
-import { useAppStore } from "../../zustand/store";
 import "./singleArticle.scss";
+import CommentsData from "../CommentsData/CommentsData";
+import { getDate } from "../../utils/getDate";
+import { ArticlesData } from "../../utils/Interfaces";
 
 const SingleArticle = () => {
   const param = useParams();
-  const toast = useToast();
+  const { toast } = createStandaloneToast()
   const [loading, setLoading] = useState(false);
   const [isAddCommentLoading, setIsAddCommentLoading] = useState(false);
+  const [singleArticle, setSingleArticle] = useState<ArticlesData>();
   const [isDeleteCommentLoading, setIsDeleteCommentLoading] = useState({id: 0 , isShow: false});
   const [commentsData, setCommentsData] = useState([]);
   const formik = useFormik({
@@ -28,46 +33,33 @@ const SingleArticle = () => {
     onSubmit: (values) => {
       setIsAddCommentLoading(true);
       postComment(param.slug, { comment: values })
-        .then((res) => {
+        .then(() => {
           setIsAddCommentLoading(false);
-          toast({
-            title: "Comment added successfully",
-            status: "success",
-            position: "top-right",
-            duration: 4000,
-            isClosable: true,
-          });
+          toast(getToast("Comment added successfully","success"));
           getComments(param.slug).then((res: any) => {
             setCommentsData(res?.data?.comments);
           });
         })
-        .catch(() => {
+        .catch((error) => {
           setIsAddCommentLoading(false);
+          toast(getToast(error,"error"))
         });
     },
   });
 
   const handleCommentDelete = (id:number) => {
     setIsDeleteCommentLoading({id: id, isShow:true})
-    deleteComment(param.slug,id).then((res)=>{
-      toast({
-        title: "Comment deleted successfully",
-        status: "success",
-        position: "top-right",
-        duration: 4000,
-        isClosable: true,
-      });
+    deleteComment(param.slug,id).then(()=>{
+      toast(getToast("Comment deleted successfully","success"));
       setIsDeleteCommentLoading({id: id, isShow:false})
       getComments(param.slug).then((res: any) => {
         setCommentsData(res?.data?.comments);
       });
-    }).catch(() => {
+    }).catch((error) => {
       setIsDeleteCommentLoading({id: id, isShow:false})
+      toast(getToast(error,"error"))
     })
   }
-
-  const singleArticle = useAppStore((state: any) => state.singleArticle);
-  const setSingleArticle = useAppStore((state: any) => state.setSingleArticle);
 
   useEffect(() => {
     setLoading(true);
@@ -76,8 +68,8 @@ const SingleArticle = () => {
         setSingleArticle(res?.data?.article);
         setLoading(false);
       })
-      .catch((err) => {
-        console.log("error in fetching single article", err);
+      .catch(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -86,10 +78,6 @@ const SingleArticle = () => {
       setCommentsData(res?.data?.comments);
     });
   }, []);
-
-  if (!singleArticle) {
-    return null;
-  }
 
   return (
     <>
@@ -104,7 +92,7 @@ const SingleArticle = () => {
             colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
           />
         </div>
-      ) : (
+      ) : singleArticle && (
         <>
           <Box className="headingWrapper">
             <Text
@@ -124,14 +112,7 @@ const SingleArticle = () => {
                     {singleArticle?.author?.username}
                   </Text>
                   <Text fontSize="xs" color="white">
-                    {new Date(singleArticle?.updatedAt).toLocaleString(
-                      "en-US",
-                      {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                      }
-                    )}
+                    {getDate(singleArticle?.updatedAt)}
                   </Text>
                 </Box>
               </Box>
@@ -169,48 +150,7 @@ const SingleArticle = () => {
             </form>
           </Box>
           <Box>
-            {commentsData.length > 0 &&
-              commentsData.map((comment: any, index:number) => {
-                return (
-                  <Box key={index} className="commentSection comments">
-                    <Box>{comment.body}</Box>
-                    <Box className="commentUserWrapper">
-                      <Box className="usernameAvatarConatainerSingle">
-                        <Box>
-                          <Avatar size="sm" src={comment?.author?.image} />
-                        </Box>
-                        <Box className="userName">
-                          <Text fontSize="sm" color="white">
-                            {comment?.author?.username}
-                          </Text>
-                          <Text fontSize="xs" color="white">
-                            {new Date(comment?.updatedAt).toLocaleString(
-                              "en-US",
-                              {
-                                month: "long",
-                                day: "numeric",
-                                year: "numeric",
-                              }
-                            )}
-                          </Text>
-                        </Box>
-                      </Box>
-                      <Button
-                        isLoading={isDeleteCommentLoading.id === comment?.id && isDeleteCommentLoading.isShow === true}
-                        loadingText="Loading"
-                        spinnerPlacement="end"
-                        backgroundColor="purple.600"
-                        onClick={()=>handleCommentDelete(comment.id)}
-                        color="white"
-                        type="submit"
-                        margin="20px 0"
-                      >
-                        Delete Comment
-                      </Button>
-                    </Box>
-                  </Box>
-                );
-              })}
+            <CommentsData commentsData={commentsData} loading={isDeleteCommentLoading} handleCommentDelete={handleCommentDelete} />
           </Box>
         </>
       )}

@@ -1,16 +1,16 @@
-import { Box, Button, Input, Text, Textarea, useToast } from '@chakra-ui/react'
+import { Box, Button, Input, Text, Textarea } from '@chakra-ui/react'
 import { useFormik } from "formik";
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { createNewArticle } from '../../services/auth-service';
 import { ArticleSchema } from '../../utils/ArticleSchema';
+import { createStandaloneToast } from '@chakra-ui/react'
+import { getToast } from '../../utils/getToast';
 
 const CreateArticle = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const toast = useToast()
+  const { toast } = createStandaloneToast()
   const navigate = useNavigate();
-
-
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -23,25 +23,12 @@ const CreateArticle = () => {
       setIsLoading(true)
       createNewArticle({ article: values }).then(() => {
         setIsLoading(false)
-        toast({
-          title: 'Article created successfully',
-          status: 'success',
-          position: 'top-right',
-          duration: 6000,
-          isClosable: true,
-        })
+        toast(getToast("Article created successfully","success"))
         navigate('/')
       })
         .catch((error) => {
           setIsLoading(false)
-          toast({
-            title: `${error}`,
-            position: 'top-right',
-            status: 'error',
-            duration: 6000,
-            isClosable: true,
-          })
-
+          toast(getToast(error,"error"))
         })
     },
   })

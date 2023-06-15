@@ -1,13 +1,15 @@
-import { Box, Button, FormErrorMessage, Input, Text, useToast } from '@chakra-ui/react'
+import { Box, Button, Input, Text } from '@chakra-ui/react'
 import { useFormik } from "formik";
 import './register.scss'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../../services/auth-service';
 import { SignupSchema } from '../../utils/SignUpSchema';
+import { createStandaloneToast } from '@chakra-ui/react'
+import { getToast } from '../../utils/getToast';
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const toast = useToast()
+  const { toast } = createStandaloneToast()
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -21,25 +23,12 @@ const Register = () => {
       setIsLoading(true)
       register({ user: values }).then(() => {
         setIsLoading(false)
-        toast({
-          title: 'Account created successfully',
-          status: 'success',
-          position: 'top-right',
-          duration: 6000,
-          isClosable: true,
-        })
+        toast(getToast("Account created successfully","success"))
         navigate('/login')
       })
         .catch((error) => {
           setIsLoading(false)
-          toast({
-            title: `${error}`,
-            position: 'top-right',
-            status: 'error',
-            duration: 6000,
-            isClosable: true,
-          })
-
+          toast(getToast(error,"error"))
         })
     },
   })

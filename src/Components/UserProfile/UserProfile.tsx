@@ -3,24 +3,20 @@ import React,{useEffect, useState} from 'react'
 import { ColorRing, ThreeDots } from 'react-loader-spinner';
 import { useNavigate, useParams } from 'react-router-dom';
 import { followUser, getUserArticles, getUserProfile, unFollowUser } from '../../services/auth-service';
+import { createStandaloneToast } from '@chakra-ui/react'
+import { getToast } from '../../utils/getToast';
 import './userProfile.scss';
-
-interface profileData {
-  bio?:any;
-  following: boolean ;
-  image: string;
-  username: string
-}
+import { ArticlesData, UserData } from '../../utils/Interfaces';
 
 const UserProfile = () => {
   const param = useParams();
   const navigate = useNavigate();
-  const[profile, setProfile] = useState<any>()
+  const { toast } = createStandaloneToast()
+  const[profile, setProfile] = useState<UserData>()
   const [loading, setLoading] = useState<boolean>(false)
   const [loading2, setLoading2] = useState<boolean>(false)
   const [followLoader, setFollowLoader] = useState<boolean>(false)
-  const [userArticles,setUserArticles] = useState<any>([])
-
+  const [userArticles,setUserArticles] = useState<Array<ArticlesData> | undefined>()
   useEffect(() => {
     setLoading(true)
     getUserProfile(param.username).then((res:any)=>{
@@ -30,10 +26,10 @@ const UserProfile = () => {
       getUserArticles(res?.data?.profile?.username).then((res:any)=>{
         setUserArticles(res?.data?.articles)
         setLoading2(false)
-      }).catch((err)=>{
+      }).catch(()=>{
         setLoading2(false)
       })
-    }).catch((err)=>{
+    }).catch(()=>{
       setLoading(false)
     })
   }, [])
@@ -47,13 +43,15 @@ const UserProfile = () => {
     if(profile?.following){
       unFollowUser(username).then(()=>{
         setFollowLoader(false)
+        toast(getToast(`You have unfollowed ${username}`,"success"));
+        setProfile({...profile, following: false})
       })
-      setProfile({...profile, following: false})
     } else {
       followUser(username).then(()=>{
         setFollowLoader(false)
+        toast(getToast(`You are now following ${username}`,"success"));
+        setProfile({...profile, following: true})
       })
-      setProfile({...profile, following: true})
     }
   }
 
@@ -81,7 +79,7 @@ const UserProfile = () => {
       <Box className='mainContainer'>
       {loading2 ? <div className='loaderWrapper'><ThreeDots
       color="#9F7AEA" visible={true} height={60} width={60}
-    /></div> :userArticles.length>0? userArticles.map((article: any, index: number) => {
+    /></div> : userArticles && userArticles?.length>0 ? userArticles?.map((article: ArticlesData, index: number) => {
         return (
           <div key={index} className="container">
             <div className='usrnameFavouriteCountConatainer'>

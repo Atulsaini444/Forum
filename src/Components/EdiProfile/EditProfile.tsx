@@ -1,20 +1,22 @@
-import { Box, Button, Input, Text, Textarea, useToast } from '@chakra-ui/react'
-import axios from 'axios';
+import { Box, Button, Input, Text, Textarea } from '@chakra-ui/react'
 import { useFormik } from "formik";
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { editProfile } from '../../services/auth-service';
+import { editProfile, getCurrentUser } from '../../services/auth-service';
 import { SignupSchema } from '../../utils/SignUpSchema';
-import { useAppStore, userData } from '../../zustand/store';
+import { useAppStore } from '../../zustand/store';
+import { createStandaloneToast } from '@chakra-ui/react'
+import { getToast } from '../../utils/getToast';
+import { AppState, FormikType, UserData } from '../../utils/Interfaces';
 
 const EditProfile = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [currentUser, setCurrentUser] = useState<userData>()
-  const token = useAppStore((state: any) => state.token)
-  const toast = useToast()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [currentUser, setCurrentUser] = useState<UserData>()
+  const token = useAppStore((state: AppState) => state.token)
+  const { toast } = createStandaloneToast()
   const navigate = useNavigate();
 
-  const formik = useFormik({
+  const formik = useFormik<any>({
     initialValues: {
       username: currentUser?.username || '',
       email: currentUser?.email || '',
@@ -29,24 +31,12 @@ const EditProfile = () => {
       setIsLoading(true)
       editProfile({ user: values }).then(() => {
         setIsLoading(false)
-        toast({
-          title: 'user updated successfully',
-          status: 'success',
-          position: 'top-right',
-          duration: 6000,
-          isClosable: true,
-        })
+        toast(getToast("user updated successfully","success"))
         navigate('/')
       })
         .catch((error) => {
           setIsLoading(false)
-          toast({
-            title: `${error}`,
-            position: 'top-right',
-            status: 'error',
-            duration: 6000,
-            isClosable: true,
-          })
+          toast(getToast(error,"error"))
 
         })
     },
@@ -57,20 +47,17 @@ const EditProfile = () => {
       formik.setValues({
         username: currentUser?.username,
         email: currentUser?.email,
-        bio: currentUser.bio!,
+        bio: currentUser.bio,
         password: '',
         image: currentUser?.image
       });
     }
   }, [currentUser]);
 
-  const getCurrentUser = async () => {
-    const res = await axios.get(`https://api.realworld.io/api/user`)
-    setCurrentUser(res.data.user)
-  }
-
   useEffect(() => {
-    if (token) getCurrentUser()
+    if (token) getCurrentUser().then((res: any)=> {
+      setCurrentUser(res.data.user)
+    })
   }, [token])
 
   return (
@@ -109,7 +96,7 @@ const EditProfile = () => {
               type='password'
               onChange={formik.handleChange}
               value={formik.values.password} />
-            {formik?.errors?.password && <Text color="red">{formik.errors.password}</Text>}
+            {/* {formik?.errors?.password && <Text color="red">{formik.errors.password}</Text>} */}
             <Button isLoading={isLoading} loadingText="Loading" spinnerPlacement='end' backgroundColor="purple.600" color="white" type='submit' margin="20px 0">Submit</Button>
           </form>
         </Box>

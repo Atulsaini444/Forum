@@ -4,14 +4,15 @@ import { useFormik } from "formik";
 import { login } from '../../services/auth-service';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppStore } from '../../zustand/store';
-import { useToast } from '@chakra-ui/react'
 import { LoginSchema } from '../../utils/LoginSchema';
+import { createStandaloneToast } from '@chakra-ui/react'
+import { getToast } from '../../utils/getToast';
+import { AppState } from '../../utils/Interfaces';
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate();
-  const toast = useToast();
-  const setUser = useAppStore((state: any) => state.setUser)
-  const setToken = useAppStore((state: any) => state.setToken)
+  const { toast } = createStandaloneToast()
+  const [setUser, setToken] = useAppStore((state: AppState) => [state.setUser,state.setToken])
 
   const formik = useFormik({
     initialValues: {
@@ -26,24 +27,12 @@ const Login = () => {
         setUser(response?.data?.user)
         setToken(response?.data?.user?.token)
         localStorage.setItem("token", response?.data?.user?.token)
-        toast({
-          title: 'Logged in successfully',
-          status: 'success',
-          position: 'top-right',
-          duration: 6000,
-          isClosable: true,
-        })
+        toast(getToast("Logged in successfully","success"))
         navigate('/')
       })
         .catch((error) => {
           setIsLoading(false)
-          toast({
-            title: `${error}`,
-            position: 'top-right',
-            status: 'error',
-            duration: 6000,
-            isClosable: true,
-          })
+          toast(getToast(error,"error"))
         })
     },
   })

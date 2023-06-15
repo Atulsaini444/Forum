@@ -1,48 +1,60 @@
-import { Avatar, Box, Text } from '@chakra-ui/react';
-import axios from 'axios';
+import { Avatar, Box, Button, Text } from '@chakra-ui/react';
 import React,{useEffect, useState} from 'react'
 import { ColorRing, ThreeDots } from 'react-loader-spinner';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getUserArticles, getUserProfile } from '../../services/auth-service';
-import { useAppStore, userData } from '../../zustand/store';
+import { followUser, getUserArticles, getUserProfile, unFollowUser } from '../../services/auth-service';
 import './userProfile.scss';
+
+interface profileData {
+  bio?:any;
+  following: boolean ;
+  image: string;
+  username: string
+}
 
 const UserProfile = () => {
   const param = useParams();
   const navigate = useNavigate();
-  const[profile, setProfile] = useState<userData|undefined>()
+  const[profile, setProfile] = useState<any>()
   const [loading, setLoading] = useState<boolean>(false)
   const [loading2, setLoading2] = useState<boolean>(false)
+  const [followLoader, setFollowLoader] = useState<boolean>(false)
   const [userArticles,setUserArticles] = useState<any>([])
-  // const setUserArticles = useAppStore((state: any) => state.setUserArticles)
-  // const userArticles = useAppStore((state: any) => state.userArticles)
 
   useEffect(() => {
     setLoading(true)
     getUserProfile(param.username).then((res:any)=>{
       setProfile(res?.data?.profile)
       setLoading(false)
-    }).catch((err)=>{
-      setLoading(false)
-      console.log("error in fetching single article", err)
-    })
-  }, [])
-
-  useEffect(()=>{
-    if(profile){
       setLoading2(true)
-      getUserArticles(profile?.username).then((res:any)=>{
+      getUserArticles(res?.data?.profile?.username).then((res:any)=>{
         setUserArticles(res?.data?.articles)
         setLoading2(false)
       }).catch((err)=>{
         setLoading2(false)
-        console.log(err)
       })
-    }
-  },[profile])
+    }).catch((err)=>{
+      setLoading(false)
+    })
+  }, [])
 
   const handleTitleClick = (slug:string) =>{
     navigate(`/single-article/${slug}`)
+  }
+
+  const handleFollowClick = (username:string|undefined) => {
+    setFollowLoader(true)
+    if(profile?.following){
+      unFollowUser(username).then(()=>{
+        setFollowLoader(false)
+      })
+      setProfile({...profile, following: false})
+    } else {
+      followUser(username).then(()=>{
+        setFollowLoader(false)
+      })
+      setProfile({...profile, following: true})
+    }
   }
 
   return (
@@ -61,7 +73,9 @@ const UserProfile = () => {
       <Avatar size='xl' src={profile?.image} />
       <Text fontSize="2xl" as="b" fontFamily="sans-serif" color="GrayText" marginTop="10px">{profile?.username}</Text>
       </Box>
-
+      <Box className='followButtonWrapper'>
+        <Button isLoading={followLoader} onClick={()=>handleFollowClick(profile?.username)} variant="outline" color="white">➕ {profile?.following ? 'UnFollow' : 'Follow'} {profile?.username}</Button>
+      </Box>
     </Box>
         <Text fontSize={{ base: "24px", md: "2xl", lg: "4xl" }} fontFamily="sans-serif" color="GrayText" className='articlesHeading'>My Articles</Text>
       <Box className='mainContainer'>
@@ -100,7 +114,7 @@ const UserProfile = () => {
             </div>
           </div>
         )
-      }): <Text  color='grey' marginLeft='22px' >
+      }): <Text  color='white' marginLeft='22px' >
       No articles to show...
     </Text> }
       </Box>

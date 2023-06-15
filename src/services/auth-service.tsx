@@ -8,8 +8,20 @@ export const login = async (data: any) => {
   return await axios.post("https://api.realworld.io/api/users/login", data);
 };
 
+export const getCurrentUser = async () => {
+  return await axios.get(`https://api.realworld.io/api/user`)
+}
 export const editProfile = async (data: any) => {
   return await axios.put("https://api.realworld.io/api/user", data);
+};
+
+
+
+export const addFavourite = async (slug: any) => {
+  return await axios.post(`https://api.realworld.io/api/articles/${slug}/favorite`);
+};
+export const deleteFavourite = async (slug: any) => {
+  return await axios.delete(`https://api.realworld.io/api/articles/${slug}/favorite`);
 };
 
 export const createNewArticle = async (data: any) => {

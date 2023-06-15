@@ -1,25 +1,24 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { ColorRing, Vortex } from "react-loader-spinner";
-import { Avatar, Text, useToast } from "@chakra-ui/react";
+import { ColorRing } from "react-loader-spinner";
+import { Avatar, Text } from "@chakra-ui/react";
 import "./Dashboard.scss";
 import useFetch from "../../Hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import ScrollToTopButton from "../ScrollToTop/ScrollToTopButton";
-import axios from "axios";
 import { useAppStore } from "../../zustand/store";
+import { addFavourite, deleteFavourite } from "../../services/auth-service";
+import { AppState, ArticlesData } from "../../utils/Interfaces";
 const Dashboard = () => {
   const [offset, setOffset] = useState(0);
-  const [loaderLoading, setLoaderLoading] = useState({slug: "", isShow: false});
   const loader = useRef(null);
-  const toast = useToast();
   const navigate = useNavigate();
   const setUpdateFavourite = useAppStore(
-    (state: any) => state.setUpdateFavourite
+    (state: AppState) => state.setUpdateFavourite
   );
   const { loading, error, articlesData } = useFetch(offset);
-  const handleObserver = useCallback((entries: any) => {
+  const handleObserver = useCallback((entries: Array<IntersectionObserverEntry>) => {
     const target = entries[0];
-    if (target.isIntersecting) {
+    if (target?.isIntersecting) {
       setOffset((prev) => prev + 10);
     }
   }, []);
@@ -27,59 +26,17 @@ const Dashboard = () => {
     navigate(`/single-article/${slug}`);
   };
 
-  const handleUserName = (username: string) => {
+  const handleUserName = (username: string | undefined) => {
     navigate(`/${username}`);
   };
 
   const handleLikeClick = async (favourite: boolean, slug: string) => {
-
-    setLoaderLoading({slug: slug, isShow:true});
     if (favourite) {
-      const res = await axios
-        .delete(`https://api.realworld.io/api/articles/${slug}/favorite`)
-        .then(() => {
-          toast({
-            title: "UnLiked successfully",
-            status: "success",
-            position: "top-right",
-            duration: 4000,
-            isClosable: true,
-          });
-        })
-        .catch((err) => {
-          toast({
-            title: err,
-            status: "error",
-            position: "top-right",
-            duration: 4000,
-            isClosable: true,
-          });
-        });
+      addFavourite(slug)
       setUpdateFavourite(slug, false);
-      setLoaderLoading({slug: "", isShow:false});
     } else {
-      const res = await axios
-        .post(`https://api.realworld.io/api/articles/${slug}/favorite`)
-        .then(() => {
-          toast({
-            title: "Liked successfully",
-            status: "success",
-            position: "top-right",
-            duration: 4000,
-            isClosable: true,
-          });
-        })
-        .catch((err) => {
-          toast({
-            title: err,
-            status: "error",
-            position: "top-right",
-            duration: 4000,
-            isClosable: true,
-          });
-        });
+      deleteFavourite(slug)
       setUpdateFavourite(slug, true);
-      setLoaderLoading({slug: "", isShow:false});
     }
   };
 
@@ -103,7 +60,7 @@ const Dashboard = () => {
       </Text>
       <div className="mainContainer">
         {articlesData &&
-          articlesData.map((article: any, index: number) => {
+          articlesData.map((article: ArticlesData, index: number) => {
             return (
               <div key={index} className="container">
                 <div className="usrnameFavouriteCountConatainer">
@@ -115,7 +72,7 @@ const Dashboard = () => {
                       className="userName"
                       onClick={() => handleUserName(article.author.username)}
                     >
-                      {article.author.username}
+                      {article?.author?.username}
                     </div>
                   </div>
                   <div
@@ -123,28 +80,9 @@ const Dashboard = () => {
                       handleLikeClick(article.favorited, article.slug)
                     }
                   >
-                    {loaderLoading.slug===article.slug && loaderLoading.isShow ? (
-                      <Vortex
-                        visible={true}
-                        height="30"
-                        width="30"
-                        ariaLabel="vortex-loading"
-                        wrapperStyle={{}}
-                        wrapperClass="vortex-wrapper"
-                        colors={[
-                          "red",
-                          "green",
-                          "blue",
-                          "yellow",
-                          "orange",
-                          "purple",
-                        ]}
-                      />
-                      ) : (
                       <Text color="white"className={`favouritesCount ${
-                        article.favorited && "favorited"
+                        article?.favorited && "favorited"
                       }`}>❤️{article.favoritesCount}</Text>
-                    )}
                   </div>
                 </div>
                 <div className="titleAndDescriptionConatainer">
@@ -167,7 +105,7 @@ const Dashboard = () => {
                 </div>
                 <div className="articleFooter">
                   <div className="tagsContainer">
-                    {article.tagList.map((tag: string, index: number) => {
+                    {article?.tagList.map((tag: string, index: number) => {
                       return (
                         <Text className="singleTag" color="#419fff" key={index}>
                           #{tag}
@@ -193,7 +131,7 @@ const Dashboard = () => {
           />
         </div>
       )}
-      {error && <p>Error!</p>}
+      {error && <p>Some error occured!</p>}
       <div ref={loader} />
     </>
   );

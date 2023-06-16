@@ -13,8 +13,9 @@ import UserProfile from './Components/UserProfile/UserProfile';
 import EditProfile from './Components/EdiProfile/EditProfile';
 import CreateArticle from './Components/CreateArticle/CreateArticle';
 import authHeader from './services/auth-header';
+import { AppState } from './utils/Interfaces';
 function App() {
-  const setToken = useAppStore((state:any) => state.setToken)
+  const setToken = useAppStore((state:AppState) => state.setToken)
   useEffect(() => {
     const token = localStorage.getItem("token");
     if(token) {

@@ -22,17 +22,29 @@ export interface Author {
   following?: boolean
 }
 
-export interface ArticlesData {
+export interface ArticlesData extends ArticleCommonType {
   slug: string,
-  title: string,
-  description: string,
-  body: string,
   author: Author,
   createdAt: string,
   favorited: boolean,
   favoritesCount: number,
-  tagList: Array<string>,
   updatedAt: string,
+}
+
+export interface createArticle {
+  article: {
+    title: string;
+    description: string;
+    body: string;
+    tagList: string[];
+  }
+}
+
+export interface ArticleCommonType {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
 }
 
 export interface Decoded {

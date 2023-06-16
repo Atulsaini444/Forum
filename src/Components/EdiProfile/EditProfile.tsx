@@ -18,11 +18,11 @@ const EditProfile = () => {
 
   const formik = useFormik<any>({
     initialValues: {
-      username: currentUser?.username || '',
-      email: currentUser?.email || '',
-      bio: currentUser?.bio || '',
+      username: '',
+      email: '',
+      bio: '',
       password: '',
-      image: currentUser ? currentUser?.image : ''
+      image: ''
     }
     ,
     enableReinitialize: true,
@@ -45,8 +45,8 @@ const EditProfile = () => {
   useEffect(() => {
     if (currentUser) {
       formik.setValues({
-        username: currentUser?.username,
-        email: currentUser?.email,
+        username: currentUser.username,
+        email: currentUser.email,
         bio: currentUser.bio,
         password: '',
         image: currentUser?.image
@@ -55,8 +55,8 @@ const EditProfile = () => {
   }, [currentUser]);
 
   useEffect(() => {
-    if (token) getCurrentUser().then((res: any)=> {
-      setCurrentUser(res.data.user)
+    if (token) getCurrentUser().then((res: UserData)=> {
+      setCurrentUser(res)
     })
   }, [token])
 
@@ -73,7 +73,7 @@ const EditProfile = () => {
               type='text'
               onChange={formik.handleChange}
               value={formik.values.username} />
-            {/* {formik?.errors?.username && <Text color="red">{formik.errors.username}</Text>} */}
+            {/* {formik?.errors?.username && <Text color="red">{formik?.errors?.username}</Text>} */}
             <Text marginTop="2">Email</Text>
             <Input
               id='email'

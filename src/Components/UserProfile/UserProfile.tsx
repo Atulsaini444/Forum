@@ -6,7 +6,7 @@ import { followUser, getUserArticles, getUserProfile, unFollowUser } from '../..
 import { createStandaloneToast } from '@chakra-ui/react'
 import { getToast } from '../../utils/getToast';
 import './userProfile.scss';
-import { ArticlesData, UserData } from '../../utils/Interfaces';
+import { ArticlesData, Author, UserData } from '../../utils/Interfaces';
 
 const UserProfile = () => {
   const param = useParams();
@@ -16,15 +16,15 @@ const UserProfile = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [loading2, setLoading2] = useState<boolean>(false)
   const [followLoader, setFollowLoader] = useState<boolean>(false)
-  const [userArticles,setUserArticles] = useState<Array<ArticlesData> | undefined>()
+  const [userArticles,setUserArticles] = useState<Array<ArticlesData>>([])
   useEffect(() => {
     setLoading(true)
-    getUserProfile(param.username).then((res:any)=>{
-      setProfile(res?.data?.profile)
+    getUserProfile(param.username).then((response: Author)=>{
+      setProfile(response)
       setLoading(false)
       setLoading2(true)
-      getUserArticles(res?.data?.profile?.username).then((res:any)=>{
-        setUserArticles(res?.data?.articles)
+      getUserArticles(response?.username).then((response:Array<ArticlesData>)=>{
+        setUserArticles(response)
         setLoading2(false)
       }).catch(()=>{
         setLoading2(false)

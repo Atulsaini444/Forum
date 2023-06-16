@@ -15,7 +15,7 @@ import { CommentSchema } from "../../utils/CommentSchema";
 import "./singleArticle.scss";
 import CommentsData from "../CommentsData/CommentsData";
 import { getDate } from "../../utils/getDate";
-import { ArticlesData } from "../../utils/Interfaces";
+import { ArticlesData, CommentsDataType } from "../../utils/Interfaces";
 
 const SingleArticle = () => {
   const param = useParams();
@@ -24,7 +24,7 @@ const SingleArticle = () => {
   const [isAddCommentLoading, setIsAddCommentLoading] = useState(false);
   const [singleArticle, setSingleArticle] = useState<ArticlesData>();
   const [isDeleteCommentLoading, setIsDeleteCommentLoading] = useState({id: 0 , isShow: false});
-  const [commentsData, setCommentsData] = useState([]);
+  const [commentsData, setCommentsData] = useState<Array<CommentsDataType>>([]);
   const formik = useFormik({
     initialValues: {
       body: "",
@@ -36,8 +36,8 @@ const SingleArticle = () => {
         .then(() => {
           setIsAddCommentLoading(false);
           toast(getToast("Comment added successfully","success"));
-          getComments(param.slug).then((res: any) => {
-            setCommentsData(res?.data?.comments);
+          getComments(param.slug).then((response: Array<CommentsDataType>) => {
+            setCommentsData(response);
           });
         })
         .catch((error) => {
@@ -52,8 +52,8 @@ const SingleArticle = () => {
     deleteComment(param.slug,id).then(()=>{
       toast(getToast("Comment deleted successfully","success"));
       setIsDeleteCommentLoading({id: id, isShow:false})
-      getComments(param.slug).then((res: any) => {
-        setCommentsData(res?.data?.comments);
+      getComments(param.slug).then((response: Array<CommentsDataType>) => {
+        setCommentsData(response);
       });
     }).catch((error) => {
       setIsDeleteCommentLoading({id: id, isShow:false})
@@ -64,8 +64,8 @@ const SingleArticle = () => {
   useEffect(() => {
     setLoading(true);
     getSingleArticle(param.slug)
-      .then((res: any) => {
-        setSingleArticle(res?.data?.article);
+      .then((response: ArticlesData) => {
+        setSingleArticle(response);
         setLoading(false);
       })
       .catch(() => {
@@ -74,8 +74,8 @@ const SingleArticle = () => {
   }, []);
 
   useEffect(() => {
-    getComments(param.slug).then((res: any) => {
-      setCommentsData(res?.data?.comments);
+    getComments(param.slug).then((response: Array<CommentsDataType>) => {
+      setCommentsData(response);
     });
   }, []);
 

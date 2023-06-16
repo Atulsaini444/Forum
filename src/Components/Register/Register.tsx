@@ -28,7 +28,7 @@ const Register = () => {
       })
         .catch((error) => {
           setIsLoading(false)
-          toast(getToast(error,"error"))
+          toast(getToast(`email or username ${error.response.data.errors.email}`,"error"))
         })
     },
   })

@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react"
 import axios from 'axios';
 import { useAppStore } from "../zustand/store";
+import { AppState } from "../utils/Interfaces";
 function useFetch(offset:number) {
-  const setArticles = useAppStore((state:any) => state.setArticles)
-  const articlesData = useAppStore((state:any) => state.articlesData)
+  const setArticles = useAppStore((state:AppState) => state.setArticles)
+  const articlesData = useAppStore((state:AppState) => state.articlesData)
   const [loading,setLoading] = useState(false);
   const [error,setError] = useState(false);
 
@@ -16,7 +17,8 @@ function useFetch(offset:number) {
       setLoading(false)
     }
     catch(err:any){
-      setError(err)
+      setLoading(false)
+      setError(err.message)
     }
   },[offset])
 

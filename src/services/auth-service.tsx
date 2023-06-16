@@ -9,7 +9,8 @@ export const login = async (data: any) => {
 };
 
 export const getCurrentUser = async () => {
-  return await axios.get(`https://api.realworld.io/api/user`)
+  const result =  await axios.get(`https://api.realworld.io/api/user`)
+  return result.data.user
 }
 export const editProfile = async (data: any) => {
   return await axios.put("https://api.realworld.io/api/user", data);
@@ -29,17 +30,20 @@ export const createNewArticle = async (data: any) => {
 };
 
 export const getSingleArticle = async (slug: string | undefined) => {
-  return await axios.get(`https://api.realworld.io/api/articles/${slug}`);
+  const result = await axios.get(`https://api.realworld.io/api/articles/${slug}`);
+  return result.data.article
 };
 
 export const getUserProfile = async (slug: string | undefined) => {
-  return await axios.get(`https://api.realworld.io/api/profiles/${slug}`);
+  const result = await axios.get(`https://api.realworld.io/api/profiles/${slug}`);
+  return result.data.profile
 };
 
-export const getUserArticles = async (username: string) => {
-  return await axios.get(
+export const getUserArticles = async (username: string | undefined) => {
+  const result = await axios.get(
     `https://api.realworld.io/api/articles?author=${username}&limit=100&offset=0`
   );
+  return result.data.articles
 };
 
 export const postComment = async (slug: string | undefined,data: any) => {
@@ -49,9 +53,10 @@ export const postComment = async (slug: string | undefined,data: any) => {
 };
 
 export const getComments = async (slug: string| undefined) => {
-  return await axios.get(
+  const result = await axios.get(
     `https://api.realworld.io/api/articles/${slug}/comments`
   );
+  return result.data.comments
 };
 
 export const deleteComment = async (slug: string | undefined, id:number) => {

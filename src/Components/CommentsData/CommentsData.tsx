@@ -5,6 +5,7 @@ import { CommentsDataType, CommentsDataProps } from '../../utils/Interfaces';
 
 const CommentsData = (props: CommentsDataProps ) => {
     const {commentsData,loading,handleCommentDelete} = props
+    console.log("here is the comments data",commentsData)
   return (
     <>
     {commentsData &&

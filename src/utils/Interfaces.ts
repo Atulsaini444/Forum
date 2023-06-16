@@ -43,7 +43,7 @@ export interface Decoded {
 }
 
 export interface FormikType {
-  initialValues: UserData | undefined;
+  initialValues: UserData;
   enableReinitialize: boolean;
   validationSchema: {
     username: string | undefined;

@@ -131,7 +131,7 @@ const Dashboard = () => {
           />
         </div>
       )}
-      {error && <p>Some error occured!</p>}
+      {error && <Text color="white" marginLeft='30px' >{error}</Text>}
       <div ref={loader} />
     </>
   );

@@ -32,7 +32,7 @@ const Login = () => {
       })
         .catch((error) => {
           setIsLoading(false)
-          toast(getToast(error,"error"))
+          toast(getToast("email or password is incorrect","error"))
         })
     },
   })

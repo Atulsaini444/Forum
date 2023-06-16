@@ -5,23 +5,19 @@ import "./Dashboard.scss";
 import useFetch from "../../Hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import ScrollToTopButton from "../ScrollToTop/ScrollToTopButton";
-import { useAppStore } from "../../zustand/store";
-import { addFavourite, deleteFavourite } from "../../services/auth-service";
 import { AppState, ArticlesData } from "../../utils/Interfaces";
+import { handleLikeClick } from "../../utils/HandleLikeClick";
+import { useAppStore } from "../../zustand/store";
 const Dashboard = () => {
   const [offset, setOffset] = useState(0);
   const loader = useRef(null);
   const navigate = useNavigate();
+  const { loading, error, articlesData } = useFetch(offset);
+
   const setUpdateFavourite = useAppStore(
     (state: AppState) => state.setUpdateFavourite
   );
-  const { loading, error, articlesData } = useFetch(offset);
-  const handleObserver = useCallback((entries: Array<IntersectionObserverEntry>) => {
-    const target = entries[0];
-    if (target?.isIntersecting) {
-      setOffset((prev) => prev + 10);
-    }
-  }, []);
+
   const handleTitleClick = (slug: string) => {
     navigate(`/single-article/${slug}`);
   };
@@ -30,15 +26,12 @@ const Dashboard = () => {
     navigate(`/${username}`);
   };
 
-  const handleLikeClick = async (favourite: boolean, slug: string) => {
-    if (favourite) {
-      addFavourite(slug)
-      setUpdateFavourite(slug, false);
-    } else {
-      deleteFavourite(slug)
-      setUpdateFavourite(slug, true);
+  const handleObserver = useCallback((entries: Array<IntersectionObserverEntry>) => {
+    const target = entries[0];
+    if (target?.isIntersecting) {
+      setOffset((prev) => prev + 10);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const option = {
@@ -77,12 +70,10 @@ const Dashboard = () => {
                   </div>
                   <div
                     onClick={() =>
-                      handleLikeClick(article.favorited, article.slug)
+                      handleLikeClick(article.favorited, article.slug, setUpdateFavourite)
                     }
                   >
-                      <Text color="white"className={`favouritesCount ${
-                        article?.favorited && "favorited"
-                      }`}>❤️{article.favoritesCount}</Text>
+                    <Text color="white" className={`favouritesCount ${article?.favorited && "favorited"}`}>❤️{article.favoritesCount}</Text>
                   </div>
                 </div>
                 <div className="titleAndDescriptionConatainer">

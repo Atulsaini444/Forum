@@ -6,7 +6,9 @@ import { followUser, getUserArticles, getUserProfile, unFollowUser } from '../..
 import { createStandaloneToast } from '@chakra-ui/react'
 import { getToast } from '../../utils/getToast';
 import './userProfile.scss';
-import { ArticlesData, Author, UserData } from '../../utils/Interfaces';
+import { AppState, ArticlesData, Author, UserData } from '../../utils/Interfaces';
+import { useAppStore } from '../../zustand/store';
+import { handleLikeClick } from '../../utils/HandleLikeClick';
 
 const UserProfile = () => {
   const param = useParams();
@@ -17,6 +19,9 @@ const UserProfile = () => {
   const [loading2, setLoading2] = useState<boolean>(false)
   const [followLoader, setFollowLoader] = useState<boolean>(false)
   const [userArticles,setUserArticles] = useState<Array<ArticlesData>>([])
+  const setUpdateFavourite = useAppStore(
+    (state: AppState) => state.setUpdateFavourite
+  );
   useEffect(() => {
     setLoading(true)
     getUserProfile(param.username).then((response: Author)=>{
@@ -91,8 +96,10 @@ const UserProfile = () => {
                   {article.author.username}
                 </div>
               </div>
-              <div className='favouritesCount'>
-              <Text color="white">❤️{article.favoritesCount}</Text>
+              <div onClick={() =>
+                      handleLikeClick(article.favorited, article.slug, setUpdateFavourite)
+                    }>
+              <Text color="white" className={`favouritesCount ${article?.favorited && "favorited"}`}>❤️{article.favoritesCount}</Text>
               </div>
             </div>
             <div className='titleAndDescriptionConatainer'>
